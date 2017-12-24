@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/JavaWebCC_MS.iml" filepath="$PROJECT_DIR$/JavaWebCC_MS.iml" />
+      <module fileurl="file://$PROJECT_DIR$/java-web-coding-challenge.iml" filepath="$PROJECT_DIR$/java-web-coding-challenge.iml" />
     </modules>
   </component>
 </project>
