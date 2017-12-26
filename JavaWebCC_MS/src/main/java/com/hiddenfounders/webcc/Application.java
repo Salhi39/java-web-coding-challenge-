@@ -1,4 +1,4 @@
-package com.hiddenfounders.webcc.java;
+package com.hiddenfounders.webcc;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
