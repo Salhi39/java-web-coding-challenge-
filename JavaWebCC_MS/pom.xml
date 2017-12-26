@@ -18,6 +18,8 @@
     </parent>
 
     <dependencies>
+
+        <!-- SpringBoot -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter</artifactId>
@@ -34,6 +36,16 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-devtools</artifactId>
         </dependency>
+
+
+        <!-- MongoDb -->
+        <dependency>
+            <groupId>org.mongodb</groupId>
+            <artifactId>mongo-java-driver</artifactId>
+            <version>3.6.1</version>
+        </dependency>
+
+
     </dependencies>
 
 </project>
