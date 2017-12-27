@@ -1,9 +1,10 @@
 package com.hiddenfounders.webcc.model;
 
-import java.util.Date;
-import java.util.Timer;
+import com.hiddenfounders.webcc.model.utility.Constants;
 
-public class Status extends Constants{
+import java.util.Date;
+
+public class Status extends Constants {
 
     private Long idUser;
     private Long idShop;

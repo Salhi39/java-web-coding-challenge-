@@ -1,13 +1,15 @@
 package com.hiddenfounders.webcc.model;
 
-import java.awt.*;
+import com.hiddenfounders.webcc.model.utility.Location;
 
 public class Shop {
 
     private Long idShop;
-    private String imageUrl;
-    private String title;
-
+    private String pictureUrl;
+    private String email;
+    private String city;
+    private String name;
+    private Location location;
     private Status status;
 
 
@@ -15,25 +17,36 @@ public class Shop {
     //**************************************
     //Constructor
 
+
+    public Shop(String pictureUrl, String email, String city,
+                String name, Location location, Status status) {
+        this.pictureUrl = pictureUrl;
+        this.email = email;
+        this.city = city;
+        this.name = name;
+        this.location = location;
+        this.status = status;
+    }
+
     /**
-     * @param imageUrl
-     * @param title
+     * @param pictureUrl
+     * @param name
      * @param status
      */
-    public Shop(String imageUrl, String title, Status status) {
-        this.imageUrl = imageUrl;
-        this.title = title;
+    public Shop(String pictureUrl, String name, Status status) {
+        this.pictureUrl = pictureUrl;
+        this.name = name;
         this.status = status;
     }
 
     /**
      *
-     * @param imageUrl
-     * @param title
+     * @param pictureUrl
+     * @param name
      */
-    public Shop(String imageUrl, String title) {
-        this.imageUrl = imageUrl;
-        this.title = title;
+    public Shop(String pictureUrl, String name) {
+        this.pictureUrl = pictureUrl;
+        this.name = name;
         this.status = new Status(idShop);
     }
 
@@ -44,8 +57,8 @@ public class Shop {
      */
     public Shop(ShopBuilder shopBuilder){
         this.idShop = shopBuilder.idShop;
-        this.imageUrl = shopBuilder.imageUrl;
-        this.title = shopBuilder.title;
+        this.pictureUrl = shopBuilder.pictureUrl;
+        this.name = shopBuilder.name;
         this.status = shopBuilder.status;
     }
 
@@ -70,7 +83,7 @@ public class Shop {
      * @return
      */
     public String getImage() {
-        return imageUrl;
+        return pictureUrl;
     }
 
 
@@ -89,10 +102,10 @@ public class Shop {
 
     /**
      *
-     * @param imageUrl
+     * @param pictureUrl
      */
-    public void setImage(String imageUrl) {
-        this.imageUrl = imageUrl;
+    public void setImage(String pictureUrl) {
+        this.pictureUrl = pictureUrl;
     }
 
     /**
@@ -100,15 +113,15 @@ public class Shop {
      * @return
      */
     public String getTitle() {
-        return title;
+        return name;
     }
 
     /**
      *
-     * @param title
+     * @param name
      */
-    public void setTitle(String title) {
-        this.title = title;
+    public void setTitle(String name) {
+        this.name = name;
     }
 
 
@@ -130,23 +143,29 @@ public class Shop {
 
     @Override
     public String toString() {
-        return "Shop{" +
+        return "DAOShop{" +
                 "idShop=" + idShop +
-                ", imageUrl=" + imageUrl +
-                ", title='" + title + '\'' +
+                ", pictureUrl=" + pictureUrl +
+                ", name='" + name + '\'' +
                 ", status=" + status +
                 '}';
     }
 
 
 
+
+
+    //**************************************
+    //Builder
+
     public static class ShopBuilder{
         private Long idShop;
-        private String imageUrl;
-        private String title;
-
+        private String pictureUrl;
+        private String email;
+        private String city;
+        private String name;
+        private Location location;
         private Status status;
-
 
 
         public ShopBuilder setIdShop(Long idShop) {
@@ -154,13 +173,28 @@ public class Shop {
             return this;
         }
 
-        public ShopBuilder setImage(String imageUrl) {
-            this.imageUrl = imageUrl;
+        public ShopBuilder setPictureUrl(String pictureUrl) {
+            this.pictureUrl = pictureUrl;
             return this;
         }
 
-        public ShopBuilder setTitle(String title) {
-            this.title = title;
+        public ShopBuilder setEmail(String email) {
+            this.email = email;
+            return this;
+        }
+
+        public ShopBuilder setCity(String city) {
+            this.city = city;
+            return this;
+        }
+
+        public ShopBuilder setName(String name) {
+            this.name = name;
+            return this;
+        }
+
+        public ShopBuilder setLocation(Location location) {
+            this.location = location;
             return this;
         }
 
@@ -173,9 +207,7 @@ public class Shop {
         public Shop build(){
             return new Shop(this);
         }
-
     }
-
 
 
 }
