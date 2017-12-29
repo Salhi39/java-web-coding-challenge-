@@ -4,7 +4,7 @@ public class Constants {
 
 
 
-    protected enum STATUS{
+    public enum STATUS{
         LIKE, DISLIKE, NONE
     }
 

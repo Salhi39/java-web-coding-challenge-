@@ -1,31 +1,32 @@
 package com.hiddenfounders.webcc.model;
 
+import java.util.List;
+
 public class User {
 
     private Long idUser;
     private String email;
     private String password;
+    private List<Status> shopLiked;
+    private List<Status> shopdisliked;
 
-
-    public User(Long idUser, String email, String password) {
-        this.idUser = idUser;
+    public User(String email, String password, List<Status> shopLiked, List<Status> shopdisliked) {
         this.email = email;
         this.password = password;
+        this.shopLiked = shopLiked;
+        this.shopdisliked = shopdisliked;
     }
-
-    public User(String email, String password) {
-        this.email = email;
-        this.password = password;
-    }
-
 
     public User(UserBuilder userBuilder) {
         this.idUser = userBuilder.idUser;
         this.email = userBuilder.email;
         this.password = userBuilder.password;
+        this.shopdisliked = userBuilder.shopdisliked;
+        this.shopdisliked = userBuilder.shopdisliked;
     }
 
-
+    public User() {
+    }
 
 
 
@@ -50,17 +51,25 @@ public class User {
         this.password = password;
     }
 
+    public List<Status> getShopLiked() { return shopLiked;}
+
+    public void setShopLiked(List<Status> shopLiked) {this.shopLiked = shopLiked;}
+
+    public List<Status> getShopdisliked() {return shopdisliked;}
+
+    public void setShopdisliked(List<Status> shopdisliked) {this.shopdisliked = shopdisliked;}
+
 
     @Override
     public String toString() {
-        return "DAOUser{" +
+        return "User{" +
                 "idUser=" + idUser +
                 ", email='" + email + '\'' +
                 ", password='" + password + '\'' +
+                ", shopLiked=" + shopLiked +
+                ", shopdisliked=" + shopdisliked +
                 '}';
     }
-
-
 
 
 
@@ -68,12 +77,11 @@ public class User {
         private Long idUser;
         private String email;
         private String password;
+        private List<Status> shopLiked;
+        private List<Status> shopdisliked;
 
+        public UserBuilder() {
 
-        public UserBuilder(Long idUser, String email, String password) {
-            this.idUser = idUser;
-            this.email = email;
-            this.password = password;
         }
 
 
@@ -92,6 +100,16 @@ public class User {
             return this;
         }
 
+
+        public UserBuilder setShopLiked(List<Status> shopLiked) {
+            this.shopLiked = shopLiked;
+            return this;
+        }
+
+        public UserBuilder setShopdisliked(List<Status> shopdisliked) {
+            this.shopdisliked = shopdisliked;
+            return this;
+        }
 
         public User build(){
             return new User(this);

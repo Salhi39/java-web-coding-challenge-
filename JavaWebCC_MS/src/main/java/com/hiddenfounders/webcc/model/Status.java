@@ -6,8 +6,9 @@ import java.util.Date;
 
 public class Status extends Constants {
 
-    private Long idUser;
-    private Long idShop;
+    private Long idStatus;
+
+    private Shop shop;
 
     private STATUS status;
 
@@ -25,46 +26,36 @@ public class Status extends Constants {
      * @param passedTime
      */
 
-    public Status(Long idUser, Long idShop, STATUS status, Date passedTime) {
-        this.idUser = idUser;
-        this.idShop = idShop;
+    public Status(Long idStatus, Shop shop, STATUS status, Date passedTime) {
+        this.idStatus = idStatus;
+        this.shop = shop;
+        this.status = status;
+        this.passedTime = passedTime;
+    }
+
+    /**
+     *
+     * @param shop
+     * @param status
+     * @param passedTime
+     */
+    public Status(Shop shop, STATUS status, Date passedTime) {
+        this.shop = shop;
         this.status = status;
         this.passedTime = passedTime;
     }
 
 
-    /**
-     *
-     * @param idUser
-     * @param idShop
-     */
-    public Status(Long idUser, Long idShop) {
-        this.idUser = idUser;
-        this.idShop = idShop;
-        this.status = STATUS.NONE;
-        this.passedTime = new Date(0);
-
+    public Status() {
     }
-
-
-    /**
-     *
-     * @param idShop
-     */
-    public Status(Long idShop) {
-        this.idShop = idShop;
-        this.status = STATUS.NONE;
-        this.passedTime = new Date(0);
-    }
-
 
     /**
      *
      * @param statusBuilder
      */
     public Status(StatusBuilder statusBuilder) {
-        this.idUser = statusBuilder.idUser;
-        this.idShop = statusBuilder.idShop;
+        this.idStatus = statusBuilder.idStatus;
+        this.shop = statusBuilder.shop;
         this.status = statusBuilder.status;
         this.passedTime = statusBuilder.passedTime;
     }
@@ -81,8 +72,8 @@ public class Status extends Constants {
      *
      * @return idUser
      */
-    public Long getIdUser() {
-        return idUser;
+    public Long getIdStatus() {
+        return idStatus;
     }
 
 
@@ -90,8 +81,8 @@ public class Status extends Constants {
      *
      * @return
      */
-    public Long getIdShop() {
-        return idShop;
+    public Shop getShop() {
+        return shop;
     }
 
 
@@ -147,15 +138,6 @@ public class Status extends Constants {
      *
      * @return
      */
-    @Override
-    public String toString() {
-        return "Status{" +
-                "idUser=" + idUser +
-                ", idShop=" + idShop +
-                ", status=" + status +
-                ", passedTime=" + passedTime +
-                '}';
-    }
 
 
 
@@ -167,21 +149,22 @@ public class Status extends Constants {
 
 
     public static class StatusBuilder{
-        private Long idUser;
-        private Long idShop;
+        private Long idStatus;
+
+        private Shop shop;
 
         private STATUS status;
 
         private Date passedTime;
 
 
-        public StatusBuilder setIdUser(Long idUser) {
-            this.idUser = idUser;
+        public StatusBuilder setIdStatus(Long idStatus) {
+            this.idStatus = idStatus;
             return this;
         }
 
-        public StatusBuilder setIdShop(Long idShop) {
-            this.idShop = idShop;
+        public StatusBuilder setShop(Shop shop) {
+            this.shop = shop;
             return this;
         }
 
@@ -195,11 +178,10 @@ public class Status extends Constants {
             return this;
         }
 
-
-
         public Status build(){
             return new Status(this);
         }
+
 
     }
 }

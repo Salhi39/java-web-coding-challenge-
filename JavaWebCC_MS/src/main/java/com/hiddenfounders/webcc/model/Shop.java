@@ -1,17 +1,33 @@
 package com.hiddenfounders.webcc.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.hiddenfounders.webcc.model.utility.Location;
+import org.hibernate.validator.constraints.NotBlank;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.Indexed;
+import org.springframework.data.mongodb.core.mapping.Document;
 
+import javax.validation.constraints.Size;
+import java.util.List;
+
+
+
+@Document(collection="shop")
+@JsonIgnoreProperties(value = {"createdAt"}, allowGetters = true)
 public class Shop {
 
+
+    @Id
     private Long idShop;
+
+    @NotBlank
+    @Size(max=100)
+    @Indexed(unique=true)
     private String pictureUrl;
     private String email;
     private String city;
     private String name;
     private Location location;
-    private Status status;
-
 
 
     //**************************************
@@ -19,24 +35,12 @@ public class Shop {
 
 
     public Shop(String pictureUrl, String email, String city,
-                String name, Location location, Status status) {
+                String name, Location location) {
         this.pictureUrl = pictureUrl;
         this.email = email;
         this.city = city;
         this.name = name;
         this.location = location;
-        this.status = status;
-    }
-
-    /**
-     * @param pictureUrl
-     * @param name
-     * @param status
-     */
-    public Shop(String pictureUrl, String name, Status status) {
-        this.pictureUrl = pictureUrl;
-        this.name = name;
-        this.status = status;
     }
 
     /**
@@ -47,7 +51,6 @@ public class Shop {
     public Shop(String pictureUrl, String name) {
         this.pictureUrl = pictureUrl;
         this.name = name;
-        this.status = new Status(idShop);
     }
 
 
@@ -59,7 +62,6 @@ public class Shop {
         this.idShop = shopBuilder.idShop;
         this.pictureUrl = shopBuilder.pictureUrl;
         this.name = shopBuilder.name;
-        this.status = shopBuilder.status;
     }
 
 
@@ -86,14 +88,48 @@ public class Shop {
         return pictureUrl;
     }
 
+    /**
+     *
+     * @return
+     */
+    public String getPictureUrl() {
+        return pictureUrl;
+    }
 
 
     /**
      *
      * @return
      */
-    public Status getStatus() {
-        return status;
+    public String getEmail() {
+        return email;
+    }
+
+
+    /**
+     *
+     * @return
+     */
+    public String getCity() {
+        return city;
+    }
+
+
+    /**
+     *
+     * @return
+     */
+    public String getName() {
+        return name;
+    }
+
+
+    /**
+     *
+     * @return
+     */
+    public Location getLocation() {
+        return location;
     }
 
 
@@ -110,14 +146,6 @@ public class Shop {
 
     /**
      *
-     * @return
-     */
-    public String getTitle() {
-        return name;
-    }
-
-    /**
-     *
      * @param name
      */
     public void setTitle(String name) {
@@ -127,32 +155,73 @@ public class Shop {
 
     /**
      *
-     * @param status
+     * @param pictureUrl
+     * @return
      */
-    public void setStatus(Status status) {
-        this.status = status;
+    public Shop setPictureUrl(String pictureUrl) {
+        this.pictureUrl = pictureUrl;
+        return this;
     }
 
 
+    /**
+     *
+     * @param email
+     * @return
+     */
+    public Shop setEmail(String email) {
+        this.email = email;
+        return this;
+    }
 
+
+    /**
+     *
+     * @param city
+     * @return
+     */
+    public Shop setCity(String city) {
+        this.city = city;
+        return this;
+    }
+
+
+    /**
+     *
+     * @param name
+     * @return
+     */
+    public Shop setName(String name) {
+        this.name = name;
+        return this;
+    }
+
+
+    /**
+     *
+     * @param location
+     * @return
+     */
+    public Shop setLocation(Location location) {
+        this.location = location;
+        return this;
+    }
 
 
     //**************************************
     //toString
 
-
     @Override
     public String toString() {
-        return "DAOShop{" +
+        return "Shop{" +
                 "idShop=" + idShop +
-                ", pictureUrl=" + pictureUrl +
+                ", pictureUrl='" + pictureUrl + '\'' +
+                ", email='" + email + '\'' +
+                ", city='" + city + '\'' +
                 ", name='" + name + '\'' +
-                ", status=" + status +
+                ", location=" + location +
                 '}';
     }
-
-
-
 
 
     //**************************************
@@ -165,7 +234,6 @@ public class Shop {
         private String city;
         private String name;
         private Location location;
-        private Status status;
 
 
         public ShopBuilder setIdShop(Long idShop) {
@@ -198,10 +266,6 @@ public class Shop {
             return this;
         }
 
-        public ShopBuilder setStatus(Status status) {
-            this.status = status;
-            return this;
-        }
 
 
         public Shop build(){
