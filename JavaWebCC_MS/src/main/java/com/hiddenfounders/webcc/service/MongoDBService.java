@@ -1,6 +1,10 @@
 package com.hiddenfounders.webcc.service;
 
 import com.hiddenfounders.webcc.model.Shop;
+import com.hiddenfounders.webcc.model.Status;
+import com.hiddenfounders.webcc.model.User;
+import com.hiddenfounders.webcc.model.utility.Constants;
+import org.springframework.http.ResponseEntity;
 
 import java.util.List;
 
@@ -13,17 +17,35 @@ import java.util.List;
 
 public interface MongoDBService {
 
-    String ShopService();
+    User createUser(User user);
 
-    Shop create(Shop shop);
+    void deleteUser(Long id);
 
-    Shop delete(String id);
+    List<User> findAllUser();
 
-    List<Shop> findAll();
+    User findUserById(Long id);
 
-    Shop findById(String id);
+    ResponseEntity updateUserPassword(Long id, String passeword);
 
-    Shop update(Shop todo);
 
+
+
+    Shop createShop(Shop user);
+
+    void deleteShop(Long id);
+
+    List<Shop> findAllShop();
+
+    Shop findShopById(Long id);
+
+
+
+    Status createStatus(Status status);
+
+    void deleteStatus(Status status);
+
+    List<Status> findAllStatusWhere(Long idUser, Constants.STATUS status);
+
+    Status updateStatus(Status status);
 
 }
