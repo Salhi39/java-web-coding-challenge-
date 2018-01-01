@@ -15,4 +15,9 @@ public class Constants {
     protected final static String  LOCATION_TYPE_POINT = "Point";
     protected final static String  LOCATION_TYPE_BOUNDING_BOX = "BoundingBox";
     protected final static String  LOCATION_TYPE_ADDRESS = "Address";
+
+
+    public enum LOGIN_STATUS{
+        WRONG_PASSWORD, WRONG_EMAIL, SUCCESSFUL
+    }
 }

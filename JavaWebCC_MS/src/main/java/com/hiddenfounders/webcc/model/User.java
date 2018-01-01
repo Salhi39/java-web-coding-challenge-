@@ -1,10 +1,24 @@
 package com.hiddenfounders.webcc.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+import org.bson.types.ObjectId;
+import org.mindrot.jbcrypt.BCrypt;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+
+import org.apache.commons.codec.digest.DigestUtils;
+import org.apache.commons.codec.binary.Base64;
+
 import java.util.List;
 
+
+@Document(collection="users")
+@JsonIgnoreProperties(value = {"createdAt"}, allowGetters = true)
 public class User {
 
-    private Long idUser;
+    @Id
+    private ObjectId idUser;
     private String email;
     private String password;
     private List<Status> shopLiked;
@@ -21,7 +35,7 @@ public class User {
         this.idUser = userBuilder.idUser;
         this.email = userBuilder.email;
         this.password = userBuilder.password;
-        this.shopdisliked = userBuilder.shopdisliked;
+        this.shopLiked = userBuilder.shopLiked;
         this.shopdisliked = userBuilder.shopdisliked;
     }
 
@@ -30,7 +44,7 @@ public class User {
 
 
 
-    public Long getIdUser() {
+    public ObjectId getIdUser() {
         return idUser;
     }
 
@@ -48,7 +62,7 @@ public class User {
     }
 
     public void setPassword(String password) {
-        this.password = password;
+        this.password = envryptPassword(password);
     }
 
     public List<Status> getShopLiked() { return shopLiked;}
@@ -57,24 +71,24 @@ public class User {
 
     public List<Status> getShopdisliked() {return shopdisliked;}
 
-    public void setShopdisliked(List<Status> shopdisliked) {this.shopdisliked = shopdisliked;}
+    public void setShopDisliked(List<Status> shopdisliked) {this.shopdisliked = shopdisliked;}
 
 
     @Override
     public String toString() {
-        return "User{" +
-                "idUser=" + idUser +
-                ", email='" + email + '\'' +
-                ", password='" + password + '\'' +
-                ", shopLiked=" + shopLiked +
-                ", shopdisliked=" + shopdisliked +
-                '}';
+        return "{" +
+                "\"_id_user\"= \"" + idUser +"\", " +
+                "\" email\"=" + email +"\", " +
+                "\" password\"=" + password +"\", " +
+                "\" shopLiked\"=" + shopLiked.toString() +"\", " +
+                "\" shopdisliked\"=" + shopdisliked.toString() +"\"" +
+                "}";
     }
 
 
 
     public static class UserBuilder{
-        private Long idUser;
+        private ObjectId idUser;
         private String email;
         private String password;
         private List<Status> shopLiked;
@@ -85,7 +99,7 @@ public class User {
         }
 
 
-        public UserBuilder setIdUser(Long idUser) {
+        public UserBuilder setIdUser(ObjectId idUser) {
             this.idUser = idUser;
             return this;
         }
@@ -96,7 +110,7 @@ public class User {
         }
 
         public UserBuilder setPassword(String password) {
-            this.password = password;
+            this.password = User.envryptPassword(password);
             return this;
         }
 
@@ -116,6 +130,15 @@ public class User {
         }
 
     }
+
+
+
+    public static String envryptPassword(String password){
+        String generatedSecuredPasswordHash = BCrypt.hashpw(password, BCrypt.gensalt(12));
+
+        return b64Pass;
+    }
+
 }
 
 

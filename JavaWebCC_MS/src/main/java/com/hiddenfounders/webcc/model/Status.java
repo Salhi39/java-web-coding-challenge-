@@ -1,14 +1,24 @@
 package com.hiddenfounders.webcc.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.hiddenfounders.webcc.model.utility.Constants;
+import org.bson.types.ObjectId;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.Date;
 
+
+@Document(collection="status")
+@JsonIgnoreProperties(value = {"createdAt"}, allowGetters = true)
 public class Status extends Constants {
 
-    private Long idStatus;
 
-    private Shop shop;
+    @Id
+    private ObjectId idStatus;
+
+
+    private ObjectId idShop;
 
     private STATUS status;
 
@@ -20,33 +30,34 @@ public class Status extends Constants {
 
     /**
      *
-     * @param idUser
+     * @param idStatus
      * @param idShop
      * @param status
      * @param passedTime
      */
 
-    public Status(Long idStatus, Shop shop, STATUS status, Date passedTime) {
+    public Status(ObjectId idStatus, ObjectId idShop, STATUS status, Date passedTime) {
         this.idStatus = idStatus;
-        this.shop = shop;
+        this.idShop = idShop;
         this.status = status;
         this.passedTime = passedTime;
     }
 
     /**
      *
-     * @param shop
+     * @param idShop
      * @param status
      * @param passedTime
      */
-    public Status(Shop shop, STATUS status, Date passedTime) {
-        this.shop = shop;
+    public Status(ObjectId idShop, STATUS status, Date passedTime) {
+        this.idShop = idShop;
         this.status = status;
         this.passedTime = passedTime;
     }
 
 
     public Status() {
+        this.passedTime = new Date();
     }
 
     /**
@@ -55,7 +66,7 @@ public class Status extends Constants {
      */
     public Status(StatusBuilder statusBuilder) {
         this.idStatus = statusBuilder.idStatus;
-        this.shop = statusBuilder.shop;
+        this.idShop = statusBuilder.idShop;
         this.status = statusBuilder.status;
         this.passedTime = statusBuilder.passedTime;
     }
@@ -72,7 +83,7 @@ public class Status extends Constants {
      *
      * @return idUser
      */
-    public Long getIdStatus() {
+    public ObjectId getIdStatus() {
         return idStatus;
     }
 
@@ -81,8 +92,8 @@ public class Status extends Constants {
      *
      * @return
      */
-    public Shop getShop() {
-        return shop;
+    public ObjectId getIdShop() {
+        return idShop;
     }
 
 
@@ -97,6 +108,14 @@ public class Status extends Constants {
 
 
 
+    /**
+     *
+     * @return
+     */
+    public Date getPassedTime() {
+        return passedTime;
+    }
+
 
 
     //**************************************
@@ -106,16 +125,7 @@ public class Status extends Constants {
     public void setStatus(STATUS status) {
         this.status = status;
     }
-
-
-    /**
-     *
-     * @return
-     */
-    public Date getPassedTime() {
-        return passedTime;
-    }
-
+    
 
     /**
      *
@@ -138,7 +148,15 @@ public class Status extends Constants {
      *
      * @return
      */
-
+    @Override
+    public String toString() {
+        return "{" +
+                "\"_id_status\": \"" + idStatus + "\"" +
+                ", \"id_shop\": \"" + idShop + "\"" +
+                ", \"status\": \"" + status + "\"" +
+                ", \"passedTime\": \"" + passedTime + "\"" +
+                "}";
+    }
 
 
 
@@ -149,22 +167,22 @@ public class Status extends Constants {
 
 
     public static class StatusBuilder{
-        private Long idStatus;
+        private ObjectId idStatus;
 
-        private Shop shop;
+        private ObjectId idShop;
 
         private STATUS status;
 
         private Date passedTime;
 
 
-        public StatusBuilder setIdStatus(Long idStatus) {
+        public StatusBuilder setIdStatus(ObjectId idStatus) {
             this.idStatus = idStatus;
             return this;
         }
 
-        public StatusBuilder setShop(Shop shop) {
-            this.shop = shop;
+        public StatusBuilder setIdShop(ObjectId idShop) {
+            this.idShop = idShop;
             return this;
         }
 
@@ -181,6 +199,7 @@ public class Status extends Constants {
         public Status build(){
             return new Status(this);
         }
+
 
 
     }

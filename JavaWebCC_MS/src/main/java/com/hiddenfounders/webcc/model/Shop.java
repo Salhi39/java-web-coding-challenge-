@@ -2,31 +2,25 @@ package com.hiddenfounders.webcc.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.hiddenfounders.webcc.model.utility.Location;
-import org.hibernate.validator.constraints.NotBlank;
+import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import javax.validation.constraints.Size;
-import java.util.List;
 
 
-
-@Document(collection="shop")
+@Document(collection="shops")
 @JsonIgnoreProperties(value = {"createdAt"}, allowGetters = true)
 public class Shop {
 
 
     @Id
-    private Long idShop;
+    private ObjectId _id;
 
-    @NotBlank
-    @Size(max=100)
-    @Indexed(unique=true)
-    private String pictureUrl;
+    private String picture;
+    private String name;
     private String email;
     private String city;
-    private String name;
     private Location location;
 
 
@@ -34,9 +28,9 @@ public class Shop {
     //Constructor
 
 
-    public Shop(String pictureUrl, String email, String city,
+    public Shop(String picture, String email, String city,
                 String name, Location location) {
-        this.pictureUrl = pictureUrl;
+        this.picture = picture;
         this.email = email;
         this.city = city;
         this.name = name;
@@ -45,11 +39,11 @@ public class Shop {
 
     /**
      *
-     * @param pictureUrl
+     * @param picture
      * @param name
      */
-    public Shop(String pictureUrl, String name) {
-        this.pictureUrl = pictureUrl;
+    public Shop(String picture, String name) {
+        this.picture = picture;
         this.name = name;
     }
 
@@ -59,13 +53,18 @@ public class Shop {
      * @param shopBuilder
      */
     public Shop(ShopBuilder shopBuilder){
-        this.idShop = shopBuilder.idShop;
-        this.pictureUrl = shopBuilder.pictureUrl;
+        this._id = shopBuilder._id;
+        this.picture = shopBuilder.picture;
         this.name = shopBuilder.name;
+        this.city = shopBuilder.city;
+        this.email = shopBuilder.email;
+        this.location = shopBuilder.location;
     }
 
 
+    public Shop(){
 
+    }
 
     //**************************************
     //Getters
@@ -75,8 +74,8 @@ public class Shop {
      *
      * @return
      */
-    public Long getIdShop() {
-        return idShop;
+    public ObjectId getIdShop() {
+        return _id;
     }
 
 
@@ -85,15 +84,15 @@ public class Shop {
      * @return
      */
     public String getImage() {
-        return pictureUrl;
+        return picture;
     }
 
     /**
      *
      * @return
      */
-    public String getPictureUrl() {
-        return pictureUrl;
+    public String getPicture() {
+        return picture;
     }
 
 
@@ -138,10 +137,10 @@ public class Shop {
 
     /**
      *
-     * @param pictureUrl
+     * @param picture
      */
-    public void setImage(String pictureUrl) {
-        this.pictureUrl = pictureUrl;
+    public void setImage(String picture) {
+        this.picture = picture;
     }
 
     /**
@@ -155,12 +154,11 @@ public class Shop {
 
     /**
      *
-     * @param pictureUrl
+     * @param picture
      * @return
      */
-    public Shop setPictureUrl(String pictureUrl) {
-        this.pictureUrl = pictureUrl;
-        return this;
+    public void setPicture(String picture) {
+        this.picture = picture;
     }
 
 
@@ -169,9 +167,8 @@ public class Shop {
      * @param email
      * @return
      */
-    public Shop setEmail(String email) {
+    public void setEmail(String email) {
         this.email = email;
-        return this;
     }
 
 
@@ -180,9 +177,8 @@ public class Shop {
      * @param city
      * @return
      */
-    public Shop setCity(String city) {
+    public void setCity(String city) {
         this.city = city;
-        return this;
     }
 
 
@@ -191,9 +187,8 @@ public class Shop {
      * @param name
      * @return
      */
-    public Shop setName(String name) {
+    public void setName(String name) {
         this.name = name;
-        return this;
     }
 
 
@@ -202,9 +197,8 @@ public class Shop {
      * @param location
      * @return
      */
-    public Shop setLocation(Location location) {
+    public void setLocation(Location location) {
         this.location = location;
-        return this;
     }
 
 
@@ -213,14 +207,14 @@ public class Shop {
 
     @Override
     public String toString() {
-        return "Shop{" +
-                "idShop=" + idShop +
-                ", pictureUrl='" + pictureUrl + '\'' +
-                ", email='" + email + '\'' +
-                ", city='" + city + '\'' +
-                ", name='" + name + '\'' +
-                ", location=" + location +
-                '}';
+        return "{" +
+                "\"_id\": \"" + _id + "\"" +
+                ", \"picture\": \"" + picture + "\"" +
+                ", \"name\": \"" + name + "\", " +
+                ", \"email\": \"" + email + "\"" +
+                ", \"city\": \"" + city + "\", " +
+                location.toString()+
+                "}";
     }
 
 
@@ -228,21 +222,21 @@ public class Shop {
     //Builder
 
     public static class ShopBuilder{
-        private Long idShop;
-        private String pictureUrl;
+        private ObjectId _id;
+        private String picture;
         private String email;
         private String city;
         private String name;
         private Location location;
 
 
-        public ShopBuilder setIdShop(Long idShop) {
-            this.idShop = idShop;
+        public ShopBuilder setIdShop(ObjectId _id) {
+            this._id = _id;
             return this;
         }
 
-        public ShopBuilder setPictureUrl(String pictureUrl) {
-            this.pictureUrl = pictureUrl;
+        public ShopBuilder setPicture(String picture) {
+            this.picture = picture;
             return this;
         }
 
