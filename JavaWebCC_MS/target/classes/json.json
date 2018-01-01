@@ -1,0 +1,16 @@
+{
+  "_id": {
+    "$oid": "5a0c6711fb3aac66aafe26d1"
+  },
+  "picture": "http://placehold.it/150x150",
+  "name": "Amtas",
+  "email": "leilaware@amtas.com",
+  "city": "Rabat",
+  "location": {
+    "type": "Point",
+    "coordinates": [
+      -6.76681,
+      33.92546
+    ]
+  }
+}
