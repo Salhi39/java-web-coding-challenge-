@@ -7,12 +7,16 @@ import com.hiddenfounders.webcc.model.utility.Constants;
 import com.hiddenfounders.webcc.repository.ShopRepository;
 import com.hiddenfounders.webcc.repository.StatusRepository;
 import com.hiddenfounders.webcc.repository.UserRepository;
+import com.sun.org.apache.xpath.internal.operations.Bool;
+import org.bson.types.ObjectId;
+import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -52,13 +56,24 @@ public class MongoDBServiceImp implements MongoDBService {
      */
     @Override
     public User createUser(User user) {
+        List<Status> likedStatus = new ArrayList<>();
+        for (Status status:user.getShopLiked()) {
+            likedStatus.add(createStatus(status));
+        }
+
+        List<Status> dislikedStatus = new ArrayList<>();
+        for (Status status:user.getShopdisliked()) {
+            dislikedStatus.add(createStatus(status));
+        }
+
         User persist = new User.UserBuilder()
                     .setEmail(user.getEmail())
                     .setPassword(user.getPassword())
-                    .setShopdisliked(user.getShopdisliked())
-                    .setShopdisliked(user.getShopdisliked() )
+                    .setShopdisliked(dislikedStatus)
+                    .setShopLiked(likedStatus )
                     .build();
-        return userRepository.save(user);
+
+        return userRepository.save(persist);
     }
 
 
@@ -67,7 +82,7 @@ public class MongoDBServiceImp implements MongoDBService {
      * @param id
      */
     @Override
-    public void deleteUser(Long id) {
+    public void deleteUser(ObjectId id) {
         userRepository.delete(id);
 
     }
@@ -88,11 +103,11 @@ public class MongoDBServiceImp implements MongoDBService {
      * @return
      */
     @Override
-    public User findUserById(Long id) {
+    public User findUserById(ObjectId id) {
         return userRepository.findOne(id);
     }
 
-    public ResponseEntity updateUserPassword(Long id, String passeword) {
+    public ResponseEntity updateUserPassword(ObjectId id, String passeword) {
         User user = userRepository.findOne(id);
         if(user == null) {
             return new ResponseEntity(HttpStatus.NOT_FOUND);
@@ -105,8 +120,24 @@ public class MongoDBServiceImp implements MongoDBService {
     }
 
 
+    /**
+     * @param email
+     * @param password
+     * @return
+     */
+    public Constants.LOGIN_STATUS checkPassword(String email, String password){
+        List<User> userList =  userRepository.findAll();
+        for (User user: userList) {
+            if(user.getEmail().equals(email.trim())){
+                if(BCrypt.checkpw(password, user.getPassword()))
+                    return Constants.LOGIN_STATUS.SUCCESSFUL;
+                else
+                    return Constants.LOGIN_STATUS.WRONG_PASSWORD;
+            }
+        }
 
-
+        return Constants.LOGIN_STATUS.WRONG_EMAIL;
+    }
 
 
 
@@ -130,10 +161,9 @@ public class MongoDBServiceImp implements MongoDBService {
     @Override
     public Shop createShop(Shop shop) {
         Shop persist = new Shop.ShopBuilder()
-                .setIdShop(shop.getIdShop())
                 .setName(shop.getName())
                 .setEmail(shop.getEmail())
-                .setPictureUrl(shop.getPictureUrl())
+                .setPicture(shop.getPicture())
                 .setCity(shop.getCity())
                 .setLocation(shop.getLocation())
                 .build();
@@ -146,7 +176,7 @@ public class MongoDBServiceImp implements MongoDBService {
      * @param id
      */
     @Override
-    public void deleteShop(Long id) {
+    public void deleteShop(ObjectId id) {
         shopRepository.delete(id);
     }
 
@@ -167,13 +197,43 @@ public class MongoDBServiceImp implements MongoDBService {
      * @return
      */
     @Override
-    public Shop findShopById(Long id) {
+    public Shop findShopById(ObjectId id) {
         return shopRepository.findOne(id);
     }
 
 
+    /**
+     *
+     * @param idUser
+     * @return
+     */
+    public List<Shop> findAllLikedShop(ObjectId idUser){
+        List<Status> statusList = findAllStatusWhere(idUser, Constants.STATUS.LIKE);
+        List<Shop> shopList = new ArrayList<>();
+
+        for (Status status: statusList) {
+            shopList.add(findShopById(status.getIdShop()));
+        }
+
+        return shopList;
+    }
 
 
+    /**
+     *
+     * @param idUser
+     * @return
+     */
+    public List<Shop> findAllDislikedShop(ObjectId idUser){
+        List<Status> statusList = findAllStatusWhere(idUser, Constants.STATUS.DISLIKE);
+        List<Shop> shopList = new ArrayList<>();
+
+        for (Status status: statusList) {
+            shopList.add(findShopById(status.getIdShop()));
+        }
+
+        return shopList;
+    }
 
 
 
@@ -198,7 +258,7 @@ public class MongoDBServiceImp implements MongoDBService {
         Status persist = new Status.StatusBuilder()
                 .setIdStatus(status.getIdStatus())
                 .setStatus(status.getStatus())
-                .setShop(status.getShop())
+                .setIdShop(status.getIdShop())
                 .setPassedTime(status.getPassedTime())
                 .build();
         return statusRepository.save(persist);
@@ -222,7 +282,7 @@ public class MongoDBServiceImp implements MongoDBService {
      * @return
      */
     @Override
-    public List<Status> findAllStatusWhere(Long idUser, Constants.STATUS status){
+    public List<Status> findAllStatusWhere(ObjectId idUser, Constants.STATUS status){
         User user = userRepository.findOne(idUser);
         if(status == Constants.STATUS.LIKE)
             return user.getShopLiked();

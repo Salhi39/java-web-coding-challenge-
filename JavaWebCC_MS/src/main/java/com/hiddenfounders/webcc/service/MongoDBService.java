@@ -4,6 +4,8 @@ import com.hiddenfounders.webcc.model.Shop;
 import com.hiddenfounders.webcc.model.Status;
 import com.hiddenfounders.webcc.model.User;
 import com.hiddenfounders.webcc.model.utility.Constants;
+import com.sun.org.apache.xpath.internal.operations.Bool;
+import org.bson.types.ObjectId;
 import org.springframework.http.ResponseEntity;
 
 import java.util.List;
@@ -19,32 +21,35 @@ public interface MongoDBService {
 
     User createUser(User user);
 
-    void deleteUser(Long id);
+    void deleteUser(ObjectId id);
 
     List<User> findAllUser();
 
-    User findUserById(Long id);
+    User findUserById(ObjectId id);
 
-    ResponseEntity updateUserPassword(Long id, String passeword);
+    ResponseEntity updateUserPassword(ObjectId id, String passeword);
+
+    Constants.LOGIN_STATUS  checkPassword(String email, String password);
 
 
+    Shop createShop(Shop shop);
 
-
-    Shop createShop(Shop user);
-
-    void deleteShop(Long id);
+    void deleteShop(ObjectId id);
 
     List<Shop> findAllShop();
 
-    Shop findShopById(Long id);
+    Shop findShopById(ObjectId id);
 
+    List<Shop> findAllLikedShop(ObjectId idUser);
+
+    List<Shop> findAllDislikedShop(ObjectId idUser);
 
 
     Status createStatus(Status status);
 
     void deleteStatus(Status status);
 
-    List<Status> findAllStatusWhere(Long idUser, Constants.STATUS status);
+    List<Status> findAllStatusWhere(ObjectId idUser, Constants.STATUS status);
 
     Status updateStatus(Status status);
 
