@@ -7,8 +7,6 @@ import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import org.apache.commons.codec.digest.DigestUtils;
-import org.apache.commons.codec.binary.Base64;
 
 import java.util.List;
 
@@ -136,7 +134,7 @@ public class User {
     public static String envryptPassword(String password){
         String generatedSecuredPasswordHash = BCrypt.hashpw(password, BCrypt.gensalt(12));
 
-        return b64Pass;
+        return generatedSecuredPasswordHash;
     }
 
 }

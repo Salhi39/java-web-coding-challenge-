@@ -15,4 +15,5 @@ com/hiddenfounders/webcc/model/utility/Location.class
 com/hiddenfounders/webcc/service/MongoDBService.class
 com/hiddenfounders/webcc/Application.class
 com/hiddenfounders/webcc/service/MongoDBServiceImp.class
+com/hiddenfounders/webcc/model/utility/Constants$LOGIN_STATUS.class
 com/hiddenfounders/webcc/model/Status$StatusBuilder.class

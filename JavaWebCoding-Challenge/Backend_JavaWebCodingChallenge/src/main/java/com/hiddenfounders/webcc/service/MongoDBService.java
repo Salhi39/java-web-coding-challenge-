@@ -4,7 +4,6 @@ import com.hiddenfounders.webcc.model.Shop;
 import com.hiddenfounders.webcc.model.Status;
 import com.hiddenfounders.webcc.model.User;
 import com.hiddenfounders.webcc.model.utility.Constants;
-import com.sun.org.apache.xpath.internal.operations.Bool;
 import org.bson.types.ObjectId;
 import org.springframework.http.ResponseEntity;
 

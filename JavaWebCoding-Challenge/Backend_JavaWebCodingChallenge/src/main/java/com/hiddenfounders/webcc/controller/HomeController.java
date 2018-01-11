@@ -31,9 +31,9 @@ public class HomeController {
 
 
     @RequestMapping(value = { "/", "/list" }, method = RequestMethod.GET)
-    public String getAllShops() {
+    public List<Shop> getAllShops() {
 
-        return "index";
+        return mongoDBService.findAllShop();
     }
 
 
@@ -52,7 +52,7 @@ public class HomeController {
     @RequestMapping(value = {"/create" }, method = RequestMethod.GET)
     public String createShops() {
 
-        double latLong[]= {124.6682391, -17.8978304};
+        /*double latLong[]= {124.6682391, -17.8978304};
         Location loc = new Location(latLong);
         BasicDBObject loc2= new BasicDBObject("location",
                 new BasicDBObject("type", "Point")
@@ -89,7 +89,7 @@ public class HomeController {
                 .setShopdisliked(shopListDislike)
                 .setShopLiked(shopListLike)
                 .build();
-        mongoDBService.createUser(user);
+        mongoDBService.createUser(user);*/
         return "create";
     }
 }

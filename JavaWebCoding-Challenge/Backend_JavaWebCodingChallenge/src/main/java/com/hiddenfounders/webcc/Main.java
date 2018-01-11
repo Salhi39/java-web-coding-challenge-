@@ -27,8 +27,8 @@ import static java.util.stream.Collectors.toList;
 public class Main {
 
 
+/*
     public static void main( String args[] ) {
-
 
         List<Status> shopListLike = new ArrayList<>();
         Status status = new Status.StatusBuilder()
@@ -46,7 +46,7 @@ public class Main {
 
         shopListLike.add(status);
 
-        System.out.println(shopListLike.toString());
+        System.out.println(shopListLike.toString());*/
         //System.out.println(Arrays.toString(shopListLike.toArray()));
 
         /*
@@ -68,8 +68,8 @@ public class Main {
         MongoCollection<Document> collection = database.getCollection("shops");
         System.out.println("Collection myCollection selected successfully ");
 
-        */
+
 
         System.out.println(User.class.getName());
-    }
+    }   */
 }

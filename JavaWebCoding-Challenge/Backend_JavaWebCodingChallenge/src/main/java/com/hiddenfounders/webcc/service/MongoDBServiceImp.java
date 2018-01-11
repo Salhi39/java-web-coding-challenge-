@@ -7,7 +7,6 @@ import com.hiddenfounders.webcc.model.utility.Constants;
 import com.hiddenfounders.webcc.repository.ShopRepository;
 import com.hiddenfounders.webcc.repository.StatusRepository;
 import com.hiddenfounders.webcc.repository.UserRepository;
-import com.sun.org.apache.xpath.internal.operations.Bool;
 import org.bson.types.ObjectId;
 import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.beans.factory.annotation.Autowired;
