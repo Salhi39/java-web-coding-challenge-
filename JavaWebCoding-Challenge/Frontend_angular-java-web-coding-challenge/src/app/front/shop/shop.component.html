@@ -1,0 +1,28 @@
+
+
+
+<mat-grid-list cols="4">
+  <mat-grid-tile *ngFor="let shop of shopList">
+<div class="cadre">
+  <mat-card>
+    <p class="title-shop">{{shop.getName()}}</p>
+    <div class="img-shop">
+      <img src="{{shop.getPicture()}}">
+    </div>
+    <div>
+      <p><span class="label">Email:</span> {{shop.getEmail()}}</p>
+      <p><span class="label"> City:</span> {{shop.getCity()}}</p>
+    </div>
+    <div class="footer-shop">
+      <button mat-raised-button color="primary" type="submit">Like</button>
+      <button mat-raised-button color="warn" type="submit">Dislike</button>
+    </div>
+    <div>
+      <button mat-raised-button class="full-width" color="accent" (click)="openDialog()" type="submit">View Location</button>
+
+    </div>
+
+  </mat-card>
+</div>
+  </mat-grid-tile>
+</mat-grid-list>

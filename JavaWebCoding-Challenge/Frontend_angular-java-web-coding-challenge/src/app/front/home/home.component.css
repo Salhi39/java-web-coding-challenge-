@@ -1,0 +1,26 @@
+mat-card {
+  max-width: 200px;
+  margin: 2em auto;
+  text-align: center;
+}
+.signin-content {
+  padding: 60px 1rem;
+}
+.full-width-input {
+  width: 100%;
+}
+
+
+.title-shop{
+  padding-bottom: 10px;
+}
+
+.img-shop{
+  padding-right: -10px;
+  padding-left: -10px;
+  padding-bottom: 5px;
+}
+
+.footer-shop{
+  padding-bottom: 5px;
+}
