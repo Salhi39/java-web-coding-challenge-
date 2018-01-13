@@ -1,10 +1,10 @@
 export class Shops {
-  private id:string;
-  private picture:string;
-  private name:string;
-  private email:string;
-  private city:string;
-  private location:number[];
+  private id: string;
+  private picture: string;
+  private name: string;
+  private email: string;
+  private city: string;
+  private location: number[];
 
 
   constructor()/*id: string, picture: string, name: string, email: string, city: string, location: number[]) {

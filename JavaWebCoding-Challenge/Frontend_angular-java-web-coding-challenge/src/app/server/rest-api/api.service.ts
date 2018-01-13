@@ -13,7 +13,7 @@ const API_URL = environment.apiUrl;
 export class ApiService {
 
   constructor(private httpClient: HttpClient) { }
-
+/*
 
   static parseShopsFromJson (json: JSON): Shops{
     const id = json['_id'];
@@ -23,53 +23,33 @@ export class ApiService {
     const picture = json['picture'];
     const location = json['location']['coordinates'];
 
-    /*const shop = new Shops();
+    /!*const shop = new Shops();
     shop.setId(id);
     shop.setName(name);
     shop.setEmail(email);
     shop.setCity(city);
     shop.setPicture(picture);
     shop.setLocation(location);
-    */
+    *!/
     return null;
-  }
+  }*/
+
+
+
   // API: GET /shops
   public getAllShops (): Observable<any>{
-   // return this.httpClient.get<Array<Shops>>( 'http://localhost:8085/');
-
     return this.httpClient.get( 'http://localhost:8085/');
-    /*  .map((res: Response) => {
-        //console.log(typeof(mres));
-        return res.json().result.map(item => {
-          return new Shops(
-            item.getId(),
-            item.getPicture(),
-            item.getName(),
-            item.getEmail(),
-            item.getCity(),
-            item.getLocation()
-          );
-        });
-    }*/
-
-  }
-
-    //.subscribe(data => {
-      //console.log(data);
-    //});
-
-    // return this.httpClient.get<Array<Shops>>(API_URL+'/shops');
-
+     }
 
   // API: GET /likedShops
-  public getLikedShops (id: string): Observable<Shops[]>{
-    return this.httpClient.get<Array<Shops>>(API_URL + '/prefered_shops' + id);
+  public getLikedShops (id: string): Observable<any>{
+    return this.httpClient.get(API_URL + '/prefered_shops' + id);
   }
 
 
   // API: GET /dislikedShops
-  public getDisikedShops (id: string): Observable<Shops[]>{
-    return this.httpClient.get<Array<Shops>>(API_URL + '/disliked_shops/' + id);
+  public getDisikedShops (id: string): Observable<any>{
+    return this.httpClient.get(API_URL + '/disliked_shops/' + id);
   }
 
   // API: GET /check User Login

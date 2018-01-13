@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { User } from './../model/user';
+import {ApiService} from '../rest-api/api.service';
 
 @Injectable()
 export class AuthService {
@@ -12,11 +13,13 @@ export class AuthService {
   }
 
   constructor(
-    private router: Router
+    private router: Router, private apiService: ApiService
   ) {}
 
   login(user: User){
-    if (user.userName !== '' && user.password != '' ) {
+    if (user.email !== '' && user.password != '' ) {
+      this.apiService.checkUserLogin(user);
+
       this.loggedIn.next(true);
       this.router.navigate(['/']);
     }
