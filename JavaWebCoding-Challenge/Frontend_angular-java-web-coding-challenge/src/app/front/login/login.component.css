@@ -9,3 +9,15 @@ mat-card {
 .full-width-input {
   width: 100%;
 }
+
+.left{
+  position: absolute;
+  left: 2%;
+  font-size: 80%;
+}
+
+.right{
+  position: absolute;
+  right: 2%;
+  font-size: 80%;
+}
