@@ -37,6 +37,7 @@ import {CommonModule} from '@angular/common';
 import { ShopComponent } from './front/shop/shop.component';
 import { DetailsDialogComponent } from './front/details-dialog/details-dialog.component';
 import { ApiService } from './server/rest-api/api.service';
+import { RegisterComponent } from './front/register/register.component';
 
 @NgModule({
   declarations: [
@@ -46,6 +47,7 @@ import { ApiService } from './server/rest-api/api.service';
     LoginComponent,
     ShopComponent,
     DetailsDialogComponent,
+    RegisterComponent,
   ],
   imports: [
     BrowserModule,
