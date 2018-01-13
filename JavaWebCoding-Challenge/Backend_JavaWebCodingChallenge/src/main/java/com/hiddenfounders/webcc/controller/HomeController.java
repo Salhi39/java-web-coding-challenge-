@@ -1,22 +1,14 @@
 package com.hiddenfounders.webcc.controller;
 
 import com.hiddenfounders.webcc.model.Shop;
-import com.hiddenfounders.webcc.model.Status;
 import com.hiddenfounders.webcc.model.User;
 import com.hiddenfounders.webcc.model.utility.Constants;
-import com.hiddenfounders.webcc.model.utility.Location;
 import com.hiddenfounders.webcc.service.MongoDBService;
-import com.hiddenfounders.webcc.service.MongoDBServiceImp;
-import com.mongodb.BasicDBObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 @Controller
@@ -31,9 +23,9 @@ public class HomeController {
 
 
     @RequestMapping(value = { "/", "/list" }, method = RequestMethod.GET)
-    public List<Shop> getAllShops() {
+    public List<User> getAllShops() {
 
-        return mongoDBService.findAllShop();
+        return mongoDBService.findAllUser();
     }
 
 
@@ -47,6 +39,24 @@ public class HomeController {
         return str;
     }
 
+
+    @RequestMapping(value = {"/user_login" }, method = RequestMethod.POST)
+    public Constants.LOGIN_STATUS checkUserLogin(@RequestBody User user) {
+        return mongoDBService.checkPassword(user.getEmail(), user.getPassword());
+    }
+
+    @RequestMapping(value = {"/clear_user" }, method = RequestMethod.GET)
+    public String clear() {
+        mongoDBService.deleteAllUsers();
+        return "clear user";
+    }
+
+    @RequestMapping(value = {"/create_user/{email}/{passwd}" }, method = RequestMethod.POST)
+    public String createUsers(@PathVariable String email, @PathVariable String passwd) {
+        //return email+"   ---   "+passwd;
+        mongoDBService.createUser( new User(email, passwd, new ArrayList<>(), new ArrayList<>()));
+        return "create user";
+    }
 
 
     @RequestMapping(value = {"/create" }, method = RequestMethod.GET)

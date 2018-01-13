@@ -30,6 +30,8 @@ public interface MongoDBService {
 
     Constants.LOGIN_STATUS  checkPassword(String email, String password);
 
+    void deleteAllUsers();
+
 
     Shop createShop(Shop shop);
 

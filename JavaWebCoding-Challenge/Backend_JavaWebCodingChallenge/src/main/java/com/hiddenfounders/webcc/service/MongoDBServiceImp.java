@@ -140,7 +140,9 @@ public class MongoDBServiceImp implements MongoDBService {
 
 
 
-
+    public void deleteAllUsers(){
+        userRepository.deleteAll();
+    }
 
 
 

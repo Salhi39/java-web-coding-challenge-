@@ -25,11 +25,10 @@ import static java.util.stream.Collectors.toList;
 
 
 public class Main {
-
-
 /*
-    public static void main( String args[] ) {
 
+    public static void main( String args[] ) {
+*//*
         List<Status> shopListLike = new ArrayList<>();
         Status status = new Status.StatusBuilder()
                 .setStatus(Constants.STATUS.LIKE)
@@ -44,12 +43,19 @@ public class Main {
                 .setIdShop("5a0c6711fb3aac66aafe26cc")
                 .build();
 
-        shopListLike.add(status);
+        shopListLike.add(status);*//*
 
-        System.out.println(shopListLike.toString());*/
+        User persist = new User.UserBuilder()
+                .setEmail("a@a.com")
+                .setPassword("123456")
+                .setShopdisliked(new ArrayList<>())
+                .setShopLiked(new ArrayList<>() )
+                .build();
+
+        System.out.println(persist.toString());
         //System.out.println(Arrays.toString(shopListLike.toArray()));
+*//*
 
-        /*
         // Creating a Mongo client
         MongoClient mongo = new MongoClient( "localhost" , 27017 );
 
@@ -67,9 +73,10 @@ public class Main {
 
         MongoCollection<Document> collection = database.getCollection("shops");
         System.out.println("Collection myCollection selected successfully ");
+*//*
 
 
 
         System.out.println(User.class.getName());
-    }   */
+    }*/
 }

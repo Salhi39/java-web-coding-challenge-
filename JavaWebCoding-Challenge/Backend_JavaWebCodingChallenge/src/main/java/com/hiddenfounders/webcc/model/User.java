@@ -9,6 +9,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 
 import java.util.List;
+import java.util.regex.Pattern;
 
 
 @Document(collection="users")
@@ -17,6 +18,7 @@ public class User {
 
     @Id
     private ObjectId idUser;
+
     private String email;
     private String password;
     private List<Status> shopLiked;
@@ -75,11 +77,11 @@ public class User {
     @Override
     public String toString() {
         return "{" +
-                "\"_id_user\"= \"" + idUser +"\", " +
-                "\" email\"=" + email +"\", " +
-                "\" password\"=" + password +"\", " +
-                "\" shopLiked\"=" + shopLiked.toString() +"\", " +
-                "\" shopdisliked\"=" + shopdisliked.toString() +"\"" +
+                "\"_id_user\": \"" + idUser +"\", " +
+                "\" email\": \"" + email +"\", " +
+                "\" password\": \"" + password +"\", " +
+                "\" shopLiked\": \"" + shopLiked.toString() +"\", " +
+                "\" shopdisliked\": \"" + shopdisliked.toString() +"\"" +
                 "}";
     }
 
