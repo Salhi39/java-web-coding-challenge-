@@ -9,7 +9,8 @@ import {
   MatButtonModule,
   MatIconModule,
   MatGridListModule,
-  MatDialogModule
+  MatDialogModule,
+  MatPaginatorModule,
 } from '@angular/material';
 
 
@@ -25,7 +26,8 @@ import {
     MatIconModule,
     MatGridListModule,
     MatIconModule,
-    MatDialogModule
+    MatDialogModule,
+    MatPaginatorModule
   ]
 })
 export class AppMaterialModule {}

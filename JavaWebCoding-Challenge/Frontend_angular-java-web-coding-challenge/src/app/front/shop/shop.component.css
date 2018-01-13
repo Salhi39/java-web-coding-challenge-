@@ -1,6 +1,10 @@
 .cadre{
+  margin: auto;
+  text-align: center;
+}
 
-  margin: 2em auto;
+mat-grid-tile{
+  margin: auto;
   text-align: center;
 }
 
