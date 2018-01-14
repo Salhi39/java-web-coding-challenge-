@@ -1,3 +1,24 @@
-<p>
-  register works!
-</p>
+<div class="register-content">
+  <mat-card>
+    <mat-card-content>
+      <form [formGroup]="form" (ngSubmit)="onSubmit()">
+        <p>Register</p>
+        <mat-input-container class="full-width-input">
+          <input matInput placeholder="Email: example@email.com"
+                 formControlName="email" type="email" required>
+          <mat-error *ngIf="isFieldInvalid('email')">
+            Please inform your user email
+          </mat-error>
+        </mat-input-container>
+        <mat-input-container class="full-width-input">
+          <input matInput type="password" placeholder="Password"
+                 formControlName="password" required>
+          <mat-error *ngIf="isFieldInvalid('email')">
+            Please inform your password
+          </mat-error>
+        </mat-input-container>
+        <button mat-raised-button color="accent" type="submit">Register</button>
+      </form>
+    </mat-card-content>
+  </mat-card>
+</div>
