@@ -3,25 +3,34 @@
     <mat-card-content>
       <form [formGroup]="form" (ngSubmit)="onSubmit()">
         <p>Please login to continue</p>
+        <div *ngIf="status!=''" class="warning">
+          <strong class="warning">{{status}}</strong>
+        </div>
         <mat-input-container class="full-width-input">
-          <input matInput placeholder="User"
-                 formControlName="userName" required>
-          <mat-error *ngIf="isFieldInvalid('userName')">
-            Please inform your user name
+          <input matInput placeholder="Email"
+                 formControlName="email" required>
+          <mat-error *ngIf="isFieldInvalid('email')">
+            Please inform your email
+          </mat-error>
+          <mat-error *ngIf="status=='WRONG_EMAIL'">
+            This email address does not exist!!
           </mat-error>
         </mat-input-container>
         <mat-input-container class="full-width-input">
           <input matInput type="password" placeholder="Password"
                  formControlName="password" required>
-          <mat-error *ngIf="isFieldInvalid('userName')">
+          <mat-error *ngIf="isFieldInvalid('password')">
             Please inform your password
+          </mat-error>
+          <mat-error *ngIf="status=='WRONG_PASSWORD'">
+            Wrong password!!
           </mat-error>
         </mat-input-container>
         <button mat-raised-button color="primary" type="submit">Login</button>
         <div>
           <br>
           <a class="left" href="">Forgot your password?</a>
-          <a class="right" href="">Register</a>
+          <a class="right" routerLink="/register">Register</a>
         </div>
       </form>
     </mat-card-content>

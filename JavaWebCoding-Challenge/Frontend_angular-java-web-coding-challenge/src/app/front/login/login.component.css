@@ -21,3 +21,15 @@ mat-card {
   right: 2%;
   font-size: 80%;
 }
+
+
+.warning{
+  margin: 2% auto;
+  width: 50%;
+  font-style: italic;
+  padding: 5%;
+  color: darkred;
+  background: gainsboro;
+  border-radius: 20px;
+
+}

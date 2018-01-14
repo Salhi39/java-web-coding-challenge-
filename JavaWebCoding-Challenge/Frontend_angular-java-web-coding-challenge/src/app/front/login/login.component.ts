@@ -1,6 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {FormGroup, FormBuilder, Validators} from '@angular/forms';
-import {AuthService} from './../../server/auth/auth.service';
+import {AuthService} from '../../server/auth/auth.service';
+import {Observable} from 'rxjs/Observable';
+import {delay} from 'q';
 
 
 @Component({
@@ -10,17 +12,19 @@ import {AuthService} from './../../server/auth/auth.service';
 })
 export class LoginComponent implements OnInit {
 
+  myResult: Observable<any>;
   form: FormGroup;
   private formSubmitAttempt: boolean;
+  status: string;
 
   constructor(private fb: FormBuilder,
-              private authService: AuthService
-  ) {
+              private authService: AuthService) {
   }
 
   ngOnInit() {
+    this.status = '';
     this.form = this.fb.group({
-      userName: ['', Validators.required],
+      email: ['', Validators.required],
       password: ['', Validators.required]
     });
   }
@@ -34,10 +38,22 @@ export class LoginComponent implements OnInit {
 
   onSubmit() {
     if (this.form.valid) {
-      this.authService.login(this.form.value);
+      this.myResult = this.authService.login(this.form.value, status);
+      if (this.myResult != null) {
+        this.myResult.subscribe(value => {
+          this.status = value['status'];
+          console.log('STATUS LOGIN - ' + value['status']);
+          this.status = value['status'];
+          setTimeout(() => {
+            this.status = '';
+            console.log(this.status);
+          }, 3000);
+        });
+      }
     }
     this.formSubmitAttempt = true;
   }
+
 }
 
 
