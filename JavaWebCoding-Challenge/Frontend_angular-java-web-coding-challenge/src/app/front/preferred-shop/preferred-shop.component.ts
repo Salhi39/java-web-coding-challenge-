@@ -5,15 +5,13 @@ import {MatDialog, MatDialogRef, PageEvent} from '@angular/material';
 import {DetailsDialogComponent} from '../details-dialog/details-dialog.component';
 import {ApiService} from '../../server/rest-api/api.service';
 
-
 @Component({
-  selector: 'app-shop',
-  templateUrl: './shop.component.html',
-  styleUrls: ['./shop.component.css']
+  selector: 'app-preferred-shop',
+  templateUrl: './preferred-shop.component.html',
+  styleUrls: ['./preferred-shop.component.css']
 })
+export class PreferredShopComponent implements OnInit {
 
-
-export class ShopComponent implements OnInit {
 
   // shop object
   @Input() private shop: Shops;
@@ -143,4 +141,5 @@ export class ShopComponent implements OnInit {
     this.like[index] = false;
     this.dislike[index] = !this.dislike[index];
   }
+
 }
