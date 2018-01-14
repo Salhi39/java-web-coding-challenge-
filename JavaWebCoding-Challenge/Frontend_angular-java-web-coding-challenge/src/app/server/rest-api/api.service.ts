@@ -53,14 +53,25 @@ export class ApiService {
   }
 
   // API: GET /check User Login
-  public checkUserLogin (user: User): Observable<User>{
-    return this.httpClient.post<User>(API_URL + '/check_login', user);
+  public checkUserLogin (user: User): Observable<any>{
+    return this.httpClient.post<User>(API_URL + '/check_login', '{"email": "' + user.email + '" , "password": "' + user.password + '" }');
   }
 
 
   // API: PUT /forgot password
   public updateUserPassword (email: string): Observable<string>{
     return this.httpClient.put<string>('${API_URL}/forgot_password', email);
+  }
+
+  // API: POST /create user
+  public createUser (user: User): any {
+    return this.httpClient.post(API_URL + '/create_user', '{"email": "' + user.email + '" , "password": "' + user.password + '" }')
+      .subscribe(value => {
+          console.log(
+            'TASK: ' + value['task'] + '\n' +
+            'STATUS: ' + value['status'] + '\n'
+          );
+      });
   }
 
 
