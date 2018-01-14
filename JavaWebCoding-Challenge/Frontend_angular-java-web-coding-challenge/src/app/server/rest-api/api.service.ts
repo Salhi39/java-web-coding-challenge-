@@ -43,7 +43,7 @@ export class ApiService {
 
   // API: GET /likedShops
   public getLikedShops (id: string): Observable<any>{
-    return this.httpClient.get(API_URL + '/prefered_shops' + id);
+    return this.httpClient.get(API_URL + '/preferred_shops' + id);
   }
 
 

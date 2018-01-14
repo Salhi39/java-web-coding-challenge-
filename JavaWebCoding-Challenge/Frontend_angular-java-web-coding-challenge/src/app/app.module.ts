@@ -38,6 +38,7 @@ import { ShopComponent } from './front/shop/shop.component';
 import { DetailsDialogComponent } from './front/details-dialog/details-dialog.component';
 import { ApiService } from './server/rest-api/api.service';
 import { RegisterComponent } from './front/register/register.component';
+import { PreferredShopComponent } from './front/preferred-shop/preferred-shop.component';
 
 @NgModule({
   declarations: [
@@ -48,6 +49,7 @@ import { RegisterComponent } from './front/register/register.component';
     ShopComponent,
     DetailsDialogComponent,
     RegisterComponent,
+    PreferredShopComponent,
   ],
   imports: [
     BrowserModule,

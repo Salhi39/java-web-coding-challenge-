@@ -19,7 +19,6 @@ export class AuthService {
 
   login(user: User, status) {
     if (user.email !== '' && user.password != '') {
-      console.log('IF -' + user.email + '- || ' + user.password);
       this.myObservable = this.apiService.checkUserLogin(user);
       this.myObservable.subscribe(value => {
         console.log('STATUS -' + value['status']);

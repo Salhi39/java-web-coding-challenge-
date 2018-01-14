@@ -23,11 +23,9 @@ export class HomeComponent implements OnInit {
     this.result = this.ap.getAllShops().subscribe(
       val => {
         this.result = val;
-        console.log(val);
         s = val;
       });
 
-   // console.log("dwdwdwdwdwdwdwdw");
      var shops1 = new Shops();
      var shops2 = new Shops();
      var shops3 = new Shops();
@@ -60,7 +58,6 @@ export class HomeComponent implements OnInit {
 /*
      this.result = this.ap.getAllShops().subscribe(val => {this.result = val;  });
 
-     console.log(this.result);
 
      /*for(let item of this.result){
        const t = (Shops) item;

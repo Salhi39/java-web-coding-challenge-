@@ -42,11 +42,9 @@ export class LoginComponent implements OnInit {
       if (this.myResult != null) {
         this.myResult.subscribe(value => {
           this.status = value['status'];
-          console.log('STATUS LOGIN - ' + value['status']);
           this.status = value['status'];
           setTimeout(() => {
             this.status = '';
-            console.log(this.status);
           }, 3000);
         });
       }
