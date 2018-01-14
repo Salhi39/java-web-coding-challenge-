@@ -1,9 +1,11 @@
 package com.hiddenfounders.webcc.controller;
 
+import com.fasterxml.jackson.databind.util.JSONPObject;
 import com.hiddenfounders.webcc.model.Shop;
 import com.hiddenfounders.webcc.model.User;
 import com.hiddenfounders.webcc.model.utility.Constants;
 import com.hiddenfounders.webcc.service.MongoDBService;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -23,9 +25,9 @@ public class HomeController {
 
 
     @RequestMapping(value = { "/", "/list" }, method = RequestMethod.GET)
-    public List<User> getAllShops() {
+    public List<Shop> getAllShops() {
 
-        return mongoDBService.findAllUser();
+        return mongoDBService.findAllShop();
     }
 
 
@@ -40,9 +42,16 @@ public class HomeController {
     }
 
 
-    @RequestMapping(value = {"/user_login" }, method = RequestMethod.POST)
-    public Constants.LOGIN_STATUS checkUserLogin(@RequestBody User user) {
-        return mongoDBService.checkPassword(user.getEmail(), user.getPassword());
+    @RequestMapping(value = {"/check_login" }, method = RequestMethod.POST)
+    public String checkUserLogin(@RequestBody String userJson) {
+        JSONObject jsonObject = new JSONObject(userJson);
+        String email = jsonObject.getString("email");
+        String password = jsonObject.getString("password");
+
+        Constants.LOGIN_STATUS status = mongoDBService.checkPassword(email, password);
+
+        return "{\"task\": \"check login for user " + email + " \", " +
+                "\"status\": \""+ status +"\"}";
     }
 
     @RequestMapping(value = {"/clear_user" }, method = RequestMethod.GET)
@@ -51,11 +60,16 @@ public class HomeController {
         return "clear user";
     }
 
-    @RequestMapping(value = {"/create_user/{email}/{passwd}" }, method = RequestMethod.POST)
-    public String createUsers(@PathVariable String email, @PathVariable String passwd) {
-        //return email+"   ---   "+passwd;
-        mongoDBService.createUser( new User(email, passwd, new ArrayList<>(), new ArrayList<>()));
-        return "create user";
+    @RequestMapping(value = {"/create_user" }, method = RequestMethod.POST)
+    public String createUsers(@RequestBody String userJson) {
+        JSONObject jsonObject = new JSONObject(userJson);
+        String email = jsonObject.getString("email");
+        String password = jsonObject.getString("password");
+
+        mongoDBService.createUser( new User(email, password, new ArrayList<>(), new ArrayList<>()));
+
+        return "{\"task\": \"create user " + email + " \", " +
+                "\"status\": \"200\"}";
     }
 
 
