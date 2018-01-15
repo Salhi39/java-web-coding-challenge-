@@ -8,6 +8,8 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 
+import java.security.CryptoPrimitive;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
 
@@ -40,6 +42,8 @@ public class User {
     }
 
     public User() {
+        this.shopLiked = new ArrayList<>();
+        this.shopdisliked = new ArrayList<>();
     }
 
 

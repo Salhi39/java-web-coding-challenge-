@@ -2,9 +2,12 @@ package com.hiddenfounders.webcc.controller;
 
 import com.fasterxml.jackson.databind.util.JSONPObject;
 import com.hiddenfounders.webcc.model.Shop;
+import com.hiddenfounders.webcc.model.Status;
 import com.hiddenfounders.webcc.model.User;
 import com.hiddenfounders.webcc.model.utility.Constants;
 import com.hiddenfounders.webcc.service.MongoDBService;
+import org.bson.types.ObjectId;
+import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -25,9 +28,99 @@ public class HomeController {
 
 
     @RequestMapping(value = { "/", "/list" }, method = RequestMethod.GET)
-    public List<Shop> getAllShops() {
+    public String getAllShops() {
+        JSONArray jsonArray = new JSONArray();
+        List<Shop> shopList = mongoDBService.findAllShop();
+        for (Shop shop: shopList) {
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("_id", shop.getIdShop());
+            jsonObject.put("picture", shop.getPicture());
+            jsonObject.put("name", shop.getName());
+            jsonObject.put("city", shop.getCity());
+            jsonObject.put("location", shop.getLocation().getCoordinates());
+            
+            jsonArray.put(jsonObject);
+        }
+        return jsonArray.toString();
+    }
 
-        return mongoDBService.findAllShop();
+
+    @RequestMapping(value = {"/not_commented_shop/{email}" }, method = RequestMethod.GET)
+    public String getAllNotCommentedShops(@PathVariable String email) {
+        JSONArray jsonArray = new JSONArray();
+        List<Shop> shopList = mongoDBService.findAllNotCommentedShop(email);
+        for (Shop shop: shopList) {
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("_id", shop.getIdShop());
+            jsonObject.put("picture", shop.getPicture());
+            jsonObject.put("name", shop.getName());
+            jsonObject.put("city", shop.getCity());
+            jsonObject.put("email", shop.getEmail());
+            jsonObject.put("location", shop.getLocation().getCoordinates());
+
+            jsonArray.put(jsonObject);
+        }
+        return jsonArray.toString();
+    }
+
+    @RequestMapping(value = { "/user"}, method = RequestMethod.GET)
+    public String getAllUser() {
+
+        JSONArray jsonArray = new JSONArray();
+        List<User> userList = mongoDBService.findAllUser();
+        for (User user: userList) {
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("_id_user", user.getIdUser());
+            jsonObject.put("password", user.getPassword());
+            jsonObject.put("email", user.getEmail());
+
+            JSONArray jsonArrayStatusLiked = new JSONArray();
+            JSONArray jsonArrayStatusDisliked = new JSONArray();
+
+            List<Status> allStatus = new ArrayList<>();
+            allStatus.addAll(user.getShopdisliked());
+            allStatus.addAll(user.getShopdisliked());
+
+            for (Status status: allStatus) {
+                JSONObject jsonObjectStatus = new JSONObject();
+                jsonObjectStatus.put("_id_status", status.getIdStatus());
+                jsonObjectStatus.put("_id_shop", status.getIdShop());
+                jsonObjectStatus.put("passed_time", status.getPassedTime());
+                jsonObjectStatus.put("status", status.getStatus());
+
+                if(status.getStatus() == Constants.STATUS.LIKE)
+                    jsonArrayStatusLiked.put(jsonObjectStatus);
+                else
+                    jsonArrayStatusDisliked.put(jsonObjectStatus);
+            }
+
+            jsonObject.put("shopLiked", jsonArrayStatusLiked);
+            jsonObject.put("shopDisLiked", jsonArrayStatusDisliked);
+
+
+            jsonArray.put(jsonObject);
+        }
+
+
+        return jsonArray.toString();
+    }
+
+
+    @RequestMapping(value = { "likedShop/{isLike}" }, method = RequestMethod.GET)
+    public String getAllLikedStatus(@PathVariable int isLike) {
+        JSONArray jsonArray = new JSONArray();
+        Constants.STATUS myStatus = (isLike!=0) ? Constants.STATUS.LIKE : Constants.STATUS.DISLIKE;
+        List<Status> shopList = mongoDBService.findAllStatusWhere(new ObjectId("5a5be385dbc3fa61f560b835"), myStatus);
+        for (Status status: shopList) {
+            JSONObject jsonObjectStatus = new JSONObject();
+            jsonObjectStatus.put("_id_status", status.getIdStatus());
+            jsonObjectStatus.put("_id_shop", status.getIdShop());
+            jsonObjectStatus.put("passed_time", status.getPassedTime());
+            jsonObjectStatus.put("status", status.getStatus());
+
+            jsonArray.put(jsonObjectStatus);
+        }
+        return jsonArray.toString();
     }
 
 
@@ -71,6 +164,59 @@ public class HomeController {
         return "{\"task\": \"create user " + email + " \", " +
                 "\"status\": \"200\"}";
     }
+
+
+
+    @RequestMapping(value = {"/add_shop_as_liked" }, method = RequestMethod.POST)
+    public String addShopToLikedList(@RequestBody String data) {
+        JSONObject jsonObject = new JSONObject(data);
+        String userEmail = jsonObject.getString("userEmail");
+        ObjectId idShop = new ObjectId(jsonObject.getString("idShop"));
+
+        mongoDBService.addShopToLikeList(userEmail, idShop);
+
+        return "{\"task\": \"shop liked by " + userEmail + " \", " +
+                "\"status\": \"200\"}";
+    }
+
+    @RequestMapping(value = {"/add_shop_as_disliked" }, method = RequestMethod.POST)
+    public String addShopToDislikedList(@RequestBody String data) {
+        JSONObject jsonObject = new JSONObject(data);
+        String userEmail = jsonObject.getString("userEmail");
+        ObjectId idShop = new ObjectId(jsonObject.getString("idShop"));
+
+        mongoDBService.addShopToDislikeList(userEmail, idShop);
+
+        return "{\"task\": \"shop disliked by " + userEmail + " \", " +
+                "\"status\": \"200\"}";
+    }
+
+
+
+    @RequestMapping(value = {"/remove_from_liked_shop" }, method = RequestMethod.POST)
+    public String removeShopFromLikedList(@RequestBody String data) {
+        JSONObject jsonObject = new JSONObject(data);
+        String userEmail = jsonObject.getString("userEmail");
+        ObjectId idShop = new ObjectId(jsonObject.getString("idShop"));
+
+        mongoDBService.removeShopFromList(userEmail, idShop, Constants.STATUS.LIKE);
+
+        return "{\"task\": \"remove shop liked by " + userEmail + " \", " +
+                "\"status\": \"200\"}";
+    }
+
+    @RequestMapping(value = {"/remove_from_disliked_shop" }, method = RequestMethod.POST)
+    public String removeShopFromDislikedList(@RequestBody String data) {
+        JSONObject jsonObject = new JSONObject(data);
+        String userEmail = jsonObject.getString("userEmail");
+        ObjectId idShop = new ObjectId(jsonObject.getString("idShop"));
+
+        mongoDBService.removeShopFromList(userEmail, idShop, Constants.STATUS.DISLIKE);
+
+        return "{\"task\": \"remove shop disliked by " + userEmail + " \", " +
+                "\"status\": \"200\"}";
+    }
+
 
 
     @RequestMapping(value = {"/create" }, method = RequestMethod.GET)

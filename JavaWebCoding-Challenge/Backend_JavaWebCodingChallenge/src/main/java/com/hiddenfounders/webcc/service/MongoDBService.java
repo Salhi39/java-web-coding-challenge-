@@ -26,11 +26,20 @@ public interface MongoDBService {
 
     User findUserById(ObjectId id);
 
+    User findUserByEmail(String email);
+
     ResponseEntity updateUserPassword(ObjectId id, String passeword);
 
     Constants.LOGIN_STATUS  checkPassword(String email, String password);
 
     void deleteAllUsers();
+
+    void addShopToLikeList(String userEmail, ObjectId idShop);
+
+    void addShopToDislikeList(String userEmail, ObjectId idShop);
+
+    void removeShopFromList(String userEmail, ObjectId idShop, Constants.STATUS status);
+
 
 
     Shop createShop(Shop shop);
@@ -45,6 +54,7 @@ public interface MongoDBService {
 
     List<Shop> findAllDislikedShop(ObjectId idUser);
 
+    List<Shop> findAllNotCommentedShop(String email);
 
     Status createStatus(Status status);
 
