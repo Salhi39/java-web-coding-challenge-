@@ -47,6 +47,7 @@ public class HomeController {
 
     @RequestMapping(value = {"/not_commented_shop/{email}" }, method = RequestMethod.GET)
     public String getAllNotCommentedShops(@PathVariable String email) {
+        email = convertHexToString(email);
         JSONArray jsonArray = new JSONArray();
         List<Shop> shopList = mongoDBService.findAllNotCommentedShop(email);
         for (Shop shop: shopList) {
@@ -106,22 +107,54 @@ public class HomeController {
     }
 
 
-    @RequestMapping(value = { "likedShop/{isLike}" }, method = RequestMethod.GET)
-    public String getAllLikedStatus(@PathVariable int isLike) {
-        JSONArray jsonArray = new JSONArray();
-        Constants.STATUS myStatus = (isLike!=0) ? Constants.STATUS.LIKE : Constants.STATUS.DISLIKE;
-        List<Status> shopList = mongoDBService.findAllStatusWhere(new ObjectId("5a5be385dbc3fa61f560b835"), myStatus);
-        for (Status status: shopList) {
-            JSONObject jsonObjectStatus = new JSONObject();
-            jsonObjectStatus.put("_id_status", status.getIdStatus());
-            jsonObjectStatus.put("_id_shop", status.getIdShop());
-            jsonObjectStatus.put("passed_time", status.getPassedTime());
-            jsonObjectStatus.put("status", status.getStatus());
+    @RequestMapping(value = { "preferred_shops/{email}" }, method = RequestMethod.GET)
+    public String getAllLikedStatus(@PathVariable String email) {
+        email = convertHexToString(email);
 
-            jsonArray.put(jsonObjectStatus);
+        User user = mongoDBService.findUserByEmail(email);
+
+        JSONArray jsonArray = new JSONArray();
+        List<Shop> shopList = mongoDBService.findAllLikedShop(user.getIdUser());
+        for (Shop shop: shopList) {
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("_id", shop.getIdShop());
+            jsonObject.put("picture", shop.getPicture());
+            jsonObject.put("name", shop.getName());
+            jsonObject.put("city", shop.getCity());
+            jsonObject.put("email", shop.getEmail());
+            jsonObject.put("location", shop.getLocation().getCoordinates());
+
+            jsonArray.put(jsonObject);
         }
         return jsonArray.toString();
     }
+
+///////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////
+    @RequestMapping(value = { "preferred_shops" }, method = RequestMethod.GET)
+    public String getAllLikedShop() {
+        String email = "mohamed39salhi@gmail.com";
+
+        User user = mongoDBService.findUserByEmail(email);
+
+        JSONArray jsonArray = new JSONArray();
+        List<Shop> shopList = mongoDBService.findAllLikedShop(user.getIdUser());
+        for (Shop shop: shopList) {
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("_id", shop.getIdShop());
+            jsonObject.put("picture", shop.getPicture());
+            jsonObject.put("name", shop.getName());
+            jsonObject.put("city", shop.getCity());
+            jsonObject.put("email", shop.getEmail());
+            jsonObject.put("location", shop.getLocation().getCoordinates());
+
+            jsonArray.put(jsonObject);
+        }
+        return jsonArray.toString();
+    }
+
+
+
 
 
     @RequestMapping(value = {"/shop" }, method = RequestMethod.GET)
@@ -261,5 +294,36 @@ public class HomeController {
                 .build();
         mongoDBService.createUser(user);*/
         return "create";
+    }
+
+
+
+
+    /*
+   Temporal method that can help me to send right string
+   through GET
+   (I had some problems with some characters when they are sending by GET method)
+   So I convert them to HEX then to STRING
+
+   JUST Temporal method (this will be handled using crypto algo)
+    */
+    private String convertHexToString(String hex){
+
+        StringBuilder sb = new StringBuilder();
+        StringBuilder temp = new StringBuilder();
+
+        for( int i=0; i<hex.length()-1; i+=2 ){
+
+            //grab the hex in pairs
+            String output = hex.substring(i, (i + 2));
+            //convert hex to decimal
+            int decimal = Integer.parseInt(output, 16);
+            //convert the decimal to character
+            sb.append((char)decimal);
+
+            temp.append(decimal);
+        }
+
+        return sb.toString();
     }
 }

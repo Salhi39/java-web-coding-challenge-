@@ -302,8 +302,6 @@ public class MongoDBServiceImp implements MongoDBService {
 
     public List<Shop> findAllNotCommentedShop(String email) {
 
-        email = convertHexToString(email);
-
         ObjectId id = findUserByEmail(email).getIdUser();
         List<Status> likedStatusList = findAllStatusWhere(id, Constants.STATUS.LIKE);
         List<Status> dislikedStatusList = findAllStatusWhere(id, Constants.STATUS.DISLIKE);
@@ -402,34 +400,4 @@ public class MongoDBServiceImp implements MongoDBService {
     }
 
 
-
-
-
-    /*
-    Temporal method that can help me to send right string
-    through GET
-    (I had some problems with some characters when they are sending by GET method)
-    So I convert them to HEX then to STRING
-
-    JUST Temporal method (this will be handled using crypto algo)
-     */
-    private String convertHexToString(String hex){
-
-        StringBuilder sb = new StringBuilder();
-        StringBuilder temp = new StringBuilder();
-
-        for( int i=0; i<hex.length()-1; i+=2 ){
-
-            //grab the hex in pairs
-            String output = hex.substring(i, (i + 2));
-            //convert hex to decimal
-            int decimal = Integer.parseInt(output, 16);
-            //convert the decimal to character
-            sb.append((char)decimal);
-
-            temp.append(decimal);
-        }
-
-        return sb.toString();
-    }
 }
