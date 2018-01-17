@@ -1,0 +1,15 @@
+.confirm{
+  margin: 2em auto;
+  text-align: center;
+}
+
+.left{
+  position: relative;
+  left: -20%;
+  margin: 5%;
+}
+
+.right{
+  position: relative;
+  right: -43%;
+}
