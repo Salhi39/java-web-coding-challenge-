@@ -9,3 +9,12 @@ mat-card {
 .full-width-input {
   width: 100%;
 }
+
+
+
+.right{
+  float: right;
+  line-height: 1em;
+  list-style: none outside none;
+  margin: 5%;
+}
