@@ -4,11 +4,17 @@
     Web Coding Challenge
   </span>
   <span class="fill-remaining-space"></span>
-  <button mat-button>Menu Option 01</button>
-  <button mat-button>Menu Option 02</button>
+  <button mat-button (click)="goToPreferred()" *ngIf="isLoggedIn">
+    <img src="../../../assets/img/_icon_preferred.png">
+  </button>
+  <button mat-button routerLink="/" (click)="goToAllShop()" *ngIf="isLoggedIn" >
+    <img src="../../../assets/img/_icon_list.png">
+  </button>
+
+  <!--<button mat-button>Menu Option 02</button>-->
   <!--button md-button routerLink="login" *ngIf="!isLoggedIn; else notLoggedIn">Login</button>
   <ng-template #notLoggedIn>
     <button md-button (click)="onLogout()">Logout</button>
   </ng-template -->
-  <button mat-button (click)="onLogout()" *ngIf="isLoggedIn">Logout</button>
+  <button class="txt" mat-button (click)="onLogout()" *ngIf="isLoggedIn">Logout</button>
 </mat-toolbar>
