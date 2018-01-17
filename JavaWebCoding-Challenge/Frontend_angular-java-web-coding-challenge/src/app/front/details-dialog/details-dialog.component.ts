@@ -22,11 +22,6 @@ export class DetailsDialogComponent implements OnInit {
     this.lng = this.data['location'][0];
   }
 
-
-  onCloseConfirm() {
-    this.dialogRef.close('Confirm');
-  }
-
   onCloseCancel() {
     this.dialogRef.close('Cancel');
   }
