@@ -38,6 +38,7 @@ import { DetailsDialogComponent } from './front/details-dialog/details-dialog.co
 import { ApiService } from './server/rest-api/api.service';
 import { RegisterComponent } from './front/register/register.component';
 import { PreferredShopComponent } from './front/preferred-shop/preferred-shop.component';
+import { ConfirmDialogComponent } from './front/confirm-dialog/confirm-dialog.component';
 
 @NgModule({
   declarations: [
@@ -49,6 +50,7 @@ import { PreferredShopComponent } from './front/preferred-shop/preferred-shop.co
     DetailsDialogComponent,
     RegisterComponent,
     PreferredShopComponent,
+    ConfirmDialogComponent,
   ],
   imports: [
     BrowserModule,
@@ -70,7 +72,7 @@ import { PreferredShopComponent } from './front/preferred-shop/preferred-shop.co
     }),
     HttpClientModule,
   ],
-  entryComponents: [DetailsDialogComponent],
+  entryComponents: [DetailsDialogComponent, ConfirmDialogComponent],
   providers: [AuthService, AuthGuard, ApiService],
   bootstrap: [AppComponent]
 })
