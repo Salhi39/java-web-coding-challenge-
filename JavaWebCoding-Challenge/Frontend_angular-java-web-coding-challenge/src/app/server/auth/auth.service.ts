@@ -12,9 +12,12 @@ export class AuthService {
   private loggedIn = new BehaviorSubject<boolean>(false);
   private myObservable: Observable<any> = null;
 
+  private _userEmail: string;
+
   get isLoggedIn() {
     return this.loggedIn.asObservable();
   }
+
 
   constructor(private router: Router, private apiService: ApiService) {
   }
@@ -29,6 +32,7 @@ export class AuthService {
           this.router.navigate(['/'], {queryParams: {id: Security.encrypt(user.email)}});
         }
         status = value['status'];
+        this._userEmail = user.email.trim();
       });
     }
 
@@ -51,5 +55,10 @@ export class AuthService {
   logout() {
     this.loggedIn.next(false);
     this.router.navigate(['/login']);
+  }
+
+
+  get userEmail(): string {
+    return this._userEmail;
   }
 }

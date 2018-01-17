@@ -54,8 +54,12 @@ export class ApiService {
   }
 
   // API: GET /likedShops
-  public getLikedShops(id: string): Observable<any> {
-    return this.httpClient.get(API_URL + '/preferred_shops' + id);
+  public getLikedShops(email: string): Observable<any> {
+    let hex = '';
+    for (let i = 0; i < email.length; i++) {
+      hex += '' + email.charCodeAt(i).toString(16);
+    }
+    return this.httpClient.get(API_URL + '/preferred_shops/' + hex);
   }
 
 
