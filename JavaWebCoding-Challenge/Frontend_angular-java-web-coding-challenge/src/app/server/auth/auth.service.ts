@@ -1,15 +1,17 @@
 import {Injectable} from '@angular/core';
 import {Router} from '@angular/router';
 import {BehaviorSubject} from 'rxjs/BehaviorSubject';
-import {User} from './../model/user';
+import {User} from '../model/user';
 import {ApiService} from '../rest-api/api.service';
-import {observable} from 'rxjs/symbol/observable';
 import {Observable} from 'rxjs/Observable';
+import {AES} from 'crypto-js';
+import {Security} from '../security';
 
 @Injectable()
 export class AuthService {
   private loggedIn = new BehaviorSubject<boolean>(false);
   private myObservable: Observable<any> = null;
+
   get isLoggedIn() {
     return this.loggedIn.asObservable();
   }
@@ -24,9 +26,8 @@ export class AuthService {
         console.log('STATUS -' + value['status']);
         if (value['status'] == 'SUCCESSFUL') {
           this.loggedIn.next(true);
-          this.router.navigate(['/']);
+          this.router.navigate(['/'], {queryParams: {id: Security.encrypt(user.email)}});
         }
-
         status = value['status'];
       });
     }

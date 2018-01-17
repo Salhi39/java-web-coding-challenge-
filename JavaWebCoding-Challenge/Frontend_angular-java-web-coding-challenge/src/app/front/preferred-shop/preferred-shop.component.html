@@ -1,7 +1,12 @@
+
 <div (window:resize)="onResize($event)">
   <mat-grid-list [cols]="nbCols" rowHeight="450px">
     <mat-grid-tile *ngFor="let shop of shopList; let i = index">
       <div class="cadre">
+        <button mat-mini-fab (click)="removeFromPreferred(from + i)"
+                color="white" class="close"><mat-icon  >X</mat-icon>
+          <!--*ngIf="dislike[from + i]==false"-->
+        </button>
         <mat-card>
           <p class="title-shop">[{{from + i + 1}}] - {{shop.getName()}}</p>
           <div class="img-shop">
@@ -9,17 +14,6 @@
           </div>
           <div>
             <p><span class="label">Email:</span> {{shop.getEmail()}}</p>
-          </div>
-          <div class="footer-shop">
-            <!--<button mat-raised-button color="primary" type="submit">Like</button>
-            <button mat-raised-button color="warn" type="submit">Dislike</button>-->
-
-            <img class="left" (click)="onLike(from + i)" *ngIf="like[from + i]==false" src="../../../assets/img/_icon_before_like.png" alt="Like"/>
-            <img class="left" (click)="onLike(from + i)" *ngIf="like[from + i]==true" src="../../../assets/img/_icon_after_like.png" alt="Like"/>
-
-            <img class="right" (click)="onDislike(from + i)" *ngIf="dislike[from + i]==false" src="../../../assets/img/_icon_before_dislike.png" alt="Dislike"/>
-            <img class="right" (click)="onDislike(from + i)" *ngIf="dislike[from + i]==true" src="../../../assets/img/_icon_after_dislike.png" alt="Dislike"/>
-
           </div>
           <div>
             <button mat-raised-button class="full-width" color="accent" (click)="openDialog(shop.getLocation())"

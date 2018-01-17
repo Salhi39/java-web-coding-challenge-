@@ -13,8 +13,7 @@ import { LoginComponent } from './front/login/login.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ReactiveFormsModule } from '@angular/forms';
 
-import { HttpClientModule } from "@angular/common/http";
-
+import { HttpClientModule } from '@angular/common/http';
 
 import {AppMaterialModule} from './app-material/app-material.module';
 
@@ -69,7 +68,7 @@ import { PreferredShopComponent } from './front/preferred-shop/preferred-shop.co
     AgmCoreModule.forRoot({
       apiKey: 'AIzaSyBT9uwjlLbNakrhVlU0rGwzSGJCBmtpOXI'
     }),
-    HttpClientModule
+    HttpClientModule,
   ],
   entryComponents: [DetailsDialogComponent],
   providers: [AuthService, AuthGuard, ApiService],

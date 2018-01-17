@@ -1,6 +1,7 @@
 .cadre{
   margin: auto;
   text-align: center;
+  background: bisque;
 }
 
 mat-grid-tile{
@@ -24,7 +25,19 @@ mat-grid-tile{
 }
 
 .right{
-  position: relative;
+  float: right;
+  line-height: 1em;
+  list-style: none outside none;
   margin: 5%;
-  right: -20%;
 }
+
+.close{
+  float: right;
+  line-height: 0em;
+  list-style: none outside none;
+  margin: 0;
+  position: relative;
+  z-index: 101;
+}
+
+

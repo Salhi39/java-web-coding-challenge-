@@ -4,6 +4,11 @@ import {Shops} from '../../server/model/shops';
 import {MatDialog, MatDialogRef, PageEvent} from '@angular/material';
 import {DetailsDialogComponent} from '../details-dialog/details-dialog.component';
 import {ApiService} from '../../server/rest-api/api.service';
+import {ActivatedRoute} from '@angular/router';
+import {Security} from '../../server/security';
+
+import {AES} from 'crypto-js';
+import CryptoJS = require('crypto-js');
 
 
 @Component({
@@ -29,6 +34,8 @@ export class ShopComponent implements OnInit {
   private like: boolean[];
   private dislike: boolean[];
 
+  private userEmail: string;
+
   // MatPaginator Output
   pageEvent: PageEvent;
 
@@ -46,7 +53,7 @@ export class ShopComponent implements OnInit {
   private to = 10;
 
 
-  constructor(private apiService: ApiService, private dialog: MatDialog) {
+  constructor(private router: ActivatedRoute, private apiService: ApiService, private dialog: MatDialog) {
     this.shopList = [];
     this.constShopList = [];
   }
@@ -58,33 +65,35 @@ export class ShopComponent implements OnInit {
     this.like = [];
     this.dislike = [];
     // get all shops
-    this.apiService.getAllShops().subscribe(
-      val => {
-        this.length = val.length;
-        for (let elm of val) {
-          this.shop = new Shops();
-          this.shop.setId(elm['_id']);
-          this.shop.setCity(elm['city']);
-          this.shop.setEmail(elm['email']);
-          this.shop.setPicture(elm['picture']);
-          this.shop.setLocation(elm['location']['coordinates']);
-          this.shop.setName(elm['name']);
-          this.constShopList.push(this.shop);
+    this.router.queryParams.forEach(value => {
+      this.apiService.getAllNotCommentedShops(Security.decrypt(value['id'])).subscribe(
+        val => {
+          this.length = val.length;
 
-          this.like.push(false);
-          this.dislike.push(false);
-        }
-        // in the first time only 10 shops will be display
-        let max = 10;
-        // if there is less than 10 shops in my database
-        // show me what I have
-        if (this.constShopList.length < 10) {
-          max = this.constShopList.length;
-        }
-        // 10 items
-        this.shopList = this.constShopList.slice(0, max);
-      });
+          for (const elm of val) {
+            this.shop = new Shops();
+            this.shop.setId(elm['_id']);
+            this.shop.setCity(elm['city']);
+            this.shop.setEmail(elm['email']);
+            this.shop.setPicture(elm['picture']);
+            this.shop.setLocation(elm['location']);
+            this.shop.setName(elm['name']);
+            this.constShopList.push(this.shop);
 
+            this.like.push(false);
+            this.dislike.push(false);
+          }
+          // in the first time only 10 shops will be display
+          let max = 10;
+          // if there is less than 10 shops in my database
+          // show me what I have
+          if (this.constShopList.length < 10) {
+            max = this.constShopList.length;
+          }
+          // 10 items
+          this.shopList = this.constShopList.slice(0, max);
+        });
+    });
   }
 
 
@@ -106,7 +115,7 @@ export class ShopComponent implements OnInit {
   updatePagination() {
 
     // to avoid the overflowing of the page length
-    let lastValue = this.to;
+    const lastValue = this.to;
 
     // calculate start and end of the new interval
     this.from = this.pageEvent.pageSize * this.pageEvent.pageIndex;
@@ -137,10 +146,36 @@ export class ShopComponent implements OnInit {
   onLike(index) {
     this.dislike[index] = false;
     this.like[index] = !this.like[index];
+
+    this.router.queryParams.forEach(value => {
+      if (this.like[index]) {
+        const userEmail = Security.decrypt(value['id']);
+        this.apiService.removeShopFromDisliked(userEmail, this.constShopList[index].getId());
+        this.apiService.addShopAsLiked(userEmail, this.constShopList[index].getId());
+      }
+      else {
+        const userEmail = Security.decrypt(value['id']);
+        this.apiService.removeShopFromLiked(userEmail, this.constShopList[index].getId());
+      }
+
+    });
   }
 
   onDislike(index) {
     this.like[index] = false;
     this.dislike[index] = !this.dislike[index];
+
+    this.router.queryParams.forEach(value => {
+      if (this.dislike[index]) {
+        this.userEmail = Security.decrypt(value['id']);
+        this.apiService.removeShopFromLiked(this.userEmail, this.constShopList[index].getId());
+        this.apiService.addShopAsDisliked(this.userEmail, this.constShopList[index].getId());
+      }
+      else {
+        const userEmail = Security.decrypt(value['id']);
+        this.apiService.removeShopFromDisliked(userEmail, this.constShopList[index].getId());
+      }
+
+    });
   }
 }

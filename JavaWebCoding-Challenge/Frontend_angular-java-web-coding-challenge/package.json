@@ -24,6 +24,7 @@
     "@angular/platform-browser": "^5.0.0",
     "@angular/platform-browser-dynamic": "^5.0.0",
     "@angular/router": "^5.0.0",
+    "@types/crypto-js": "^3.1.38",
     "angular": "^1.6.8",
     "angular-animate": "^1.6.8",
     "angular-aria": "^1.6.8",
@@ -31,12 +32,14 @@
     "angular-messages": "^1.6.8",
     "bootstrap": "^4.0.0-beta.3",
     "core-js": "^2.4.1",
+    "crypto-js": "^3.1.9-1",
     "jquery": "^1.9.1",
     "material-design-icons": "^3.0.1",
     "ng2-bootstrap": "^1.6.3",
     "popper.js": "^1.12.9",
     "rxjs": "^5.5.2",
-    "zone.js": "^0.8.14"
+    "zone.js": "^0.8.14",
+    "crypto-js": "latest"
   },
   "devDependencies": {
     "@angular/cli": "1.6.3",
@@ -57,6 +60,7 @@
     "protractor": "~5.1.2",
     "ts-node": "~3.2.0",
     "tslint": "~5.7.0",
-    "typescript": "~2.4.2"
+    "typescript": "~2.4.2",
+    "crypto-js": "latest"
   }
 }
