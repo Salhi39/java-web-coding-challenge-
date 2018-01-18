@@ -1,4 +1,4 @@
-package com.hiddenfounders.webcc.service;
+package com.hiddenfounders.webcc.service.database;
 
 import com.hiddenfounders.webcc.model.Shop;
 import com.hiddenfounders.webcc.model.Status;
@@ -7,7 +7,6 @@ import com.hiddenfounders.webcc.model.utility.Constants;
 import com.hiddenfounders.webcc.repository.ShopRepository;
 import com.hiddenfounders.webcc.repository.StatusRepository;
 import com.hiddenfounders.webcc.repository.UserRepository;
-import org.apache.juli.logging.Log;
 import org.bson.types.ObjectId;
 import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -92,6 +91,10 @@ public class MongoDBServiceImp implements MongoDBService {
         return userRepository.findAll();
     }
 
+
+    public User updateUser(User user){
+        return userRepository.save(user);
+    }
 
     /**
      * @param id

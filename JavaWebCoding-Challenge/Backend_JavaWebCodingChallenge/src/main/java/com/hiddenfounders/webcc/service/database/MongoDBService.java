@@ -1,4 +1,4 @@
-package com.hiddenfounders.webcc.service;
+package com.hiddenfounders.webcc.service.database;
 
 import com.hiddenfounders.webcc.model.Shop;
 import com.hiddenfounders.webcc.model.Status;
@@ -29,6 +29,8 @@ public interface MongoDBService {
     User findUserByEmail(String email);
 
     ResponseEntity updateUserPassword(ObjectId id, String passeword);
+
+    User updateUser(User user);
 
     Constants.LOGIN_STATUS  checkPassword(String email, String password);
 

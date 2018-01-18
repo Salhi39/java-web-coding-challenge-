@@ -77,7 +77,7 @@ public class Main {
 
 */
 
-        SecretKeySpec key;
+       /* SecretKeySpec key;
         Cipher cipher;
         int size = 128;
         Charset CHARSET = Charset.forName("UTF-8");
@@ -94,7 +94,9 @@ public class Main {
             System.out.println(decrypted);
         } catch (Exception e) {
             e.printStackTrace();
-        }
+        }*/
+
+
 
 
     }
