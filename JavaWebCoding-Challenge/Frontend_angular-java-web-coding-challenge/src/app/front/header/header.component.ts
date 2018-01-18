@@ -25,6 +25,7 @@ export class HeaderComponent implements OnInit {
   ngOnInit() {
     this.isFavoriteEnabled = false;
     this.isListEnabled = true;
+    console.log('Favorite: ' + this.isFavoriteEnabled + ' ---  List: ' + this.isListEnabled );
     this.isLoggedIn$ = this.authService.isLoggedIn;
     this.isLoggedIn$.subscribe(value => {
       if (!value) {
@@ -35,12 +36,13 @@ export class HeaderComponent implements OnInit {
 
   onLogout() {
     this.isFavoriteEnabled = false;
-    this.isListEnabled = false;
+    this.isListEnabled = true;
     this.authService.logout();
   }
 
 
   goToPreferred() {
+    console.log('M_Favorite(): ' + this.isFavoriteEnabled + ' ---  List: ' + this.isListEnabled );
     if (this.isListEnabled) {
       const userEmail = this.authService.userEmail;
       this.router.navigate(['/my_favorite'], {queryParams: {id: Security.encrypt(userEmail)}});
@@ -50,6 +52,7 @@ export class HeaderComponent implements OnInit {
   }
 
   goToAllShop() {
+    console.log('Favorite: ' + this.isFavoriteEnabled + ' ---  M_List(): ' + this.isListEnabled );
     if (this.isFavoriteEnabled) {
       const userEmail = this.authService.userEmail;
       this.router.navigate(['/'], {queryParams: {id: Security.encrypt(userEmail)}});

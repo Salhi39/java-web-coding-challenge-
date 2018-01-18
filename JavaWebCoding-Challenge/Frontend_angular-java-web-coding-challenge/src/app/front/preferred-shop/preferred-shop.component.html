@@ -1,5 +1,6 @@
 
 <div (window:resize)="onResize($event)">
+  <h1> <p class="warning" *ngIf="shopList.length==0">  You have no preferred shops  </p></h1>
   <mat-grid-list [cols]="nbCols" rowHeight="450px">
     <mat-grid-tile *ngFor="let shop of shopList; let i = index">
       <div class="cadre">
@@ -30,7 +31,7 @@
 </div>
 
 
-<mat-paginator [length]="length"
+<mat-paginator *ngIf="shopList.length!=0" [length]="length"
                [pageSize]="pageSize"
                [pageSizeOptions]="pageSizeOptions"
                (page)="pageEvent = $event">

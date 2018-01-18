@@ -31,6 +31,16 @@ mat-grid-tile{
   margin: 5%;
 }
 
+.warning{
+  margin: auto;
+  color: darkred;
+  font-family: "Comic Sans MS", fantasy;
+  align-items: center;
+  display: flex;
+  justify-content: center;
+
+}
+
 .close{
   float: right;
   line-height: 0em;
