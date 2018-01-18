@@ -4,6 +4,7 @@ import com.hiddenfounders.webcc.model.Shop;
 import com.hiddenfounders.webcc.model.Status;
 import com.hiddenfounders.webcc.model.User;
 import com.hiddenfounders.webcc.model.utility.Constants;
+import com.hiddenfounders.webcc.model.utility.Location;
 import com.hiddenfounders.webcc.service.database.MongoDBService;
 import com.hiddenfounders.webcc.service.notification.Notifier;
 import com.hiddenfounders.webcc.service.notification.Waiter;
@@ -360,4 +361,8 @@ public class HomeController {
 
         return sb.toString();
     }
+
 }
+
+
+

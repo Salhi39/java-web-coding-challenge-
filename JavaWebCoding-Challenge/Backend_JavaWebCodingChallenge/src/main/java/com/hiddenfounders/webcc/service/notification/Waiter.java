@@ -47,7 +47,7 @@ public class Waiter implements Runnable {
         System.out.println("Remove Unlike Tag for " +
                 mongoDBService.findShopById(status.getIdShop()).getName());
 
-        
+
     }
 
 }

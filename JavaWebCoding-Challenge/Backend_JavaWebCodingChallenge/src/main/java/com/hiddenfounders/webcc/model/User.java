@@ -2,6 +2,7 @@ package com.hiddenfounders.webcc.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+import com.hiddenfounders.webcc.model.utility.Location;
 import org.bson.types.ObjectId;
 import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.data.annotation.Id;
@@ -26,6 +27,8 @@ public class User {
     private List<Status> shopLiked;
     private List<Status> shopdisliked;
 
+    private Location location;
+
     public User(String email, String password, List<Status> shopLiked, List<Status> shopdisliked) {
         this.email = email;
         this.password = password;
@@ -34,17 +37,19 @@ public class User {
     }
 
     public User(UserBuilder userBuilder) {
-        this.idUser = userBuilder.idUser;
-        this.email = userBuilder.email;
-        this.password = userBuilder.password;
-        this.shopLiked = userBuilder.shopLiked;
-        this.shopdisliked = userBuilder.shopdisliked;
+        this.idUser = userBuilder.user.getIdUser();
+        this.email = userBuilder.user.getEmail();
+        this.password = userBuilder.user.getPassword();
+        this.shopLiked = userBuilder.user.getShopLiked();
+        this.shopdisliked = userBuilder.user.getShopdisliked();
+        this.location = userBuilder.user.getLocation();
     }
 
     public User() {
         this.shopLiked = new ArrayList<>();
         this.shopdisliked = new ArrayList<>();
     }
+
 
 
 
@@ -78,6 +83,14 @@ public class User {
     public void setShopDisliked(List<Status> shopdisliked) {this.shopdisliked = shopdisliked;}
 
 
+    public Location getLocation() {
+        return location;
+    }
+
+    public void setLocation(Location location) {
+        this.location = location;
+    }
+
     @Override
     public String toString() {
         return "{" +
@@ -85,18 +98,18 @@ public class User {
                 "\" email\": \"" + email +"\", " +
                 "\" password\": \"" + password +"\", " +
                 "\" shopLiked\": \"" + shopLiked.toString() +"\", " +
-                "\" shopdisliked\": \"" + shopdisliked.toString() +"\"" +
+                "\" shopdisliked\": \"" + shopdisliked.toString() +"\", " +
+                location.toString() +
                 "}";
     }
 
+    public void setIdUser(ObjectId idUser) {
+        this.idUser = idUser;
+    }
 
 
     public static class UserBuilder{
-        private ObjectId idUser;
-        private String email;
-        private String password;
-        private List<Status> shopLiked;
-        private List<Status> shopdisliked;
+        private User user;
 
         public UserBuilder() {
 
@@ -104,28 +117,34 @@ public class User {
 
 
         public UserBuilder setIdUser(ObjectId idUser) {
-            this.idUser = idUser;
+            this.user.setIdUser(idUser);
             return this;
         }
 
         public UserBuilder setEmail(String email) {
-            this.email = email;
+            this.user.setEmail(email);
             return this;
         }
 
         public UserBuilder setPassword(String password) {
-            this.password = User.envryptPassword(password);
+            this.setPassword(password);
             return this;
         }
 
 
         public UserBuilder setShopLiked(List<Status> shopLiked) {
-            this.shopLiked = shopLiked;
+            this.user.setShopLiked(shopLiked);
             return this;
         }
 
         public UserBuilder setShopdisliked(List<Status> shopdisliked) {
-            this.shopdisliked = shopdisliked;
+            this.user.setShopDisliked(shopdisliked);
+            return this;
+        }
+
+
+        public UserBuilder setLocation(Location location) {
+            this.user.setLocation(location);
             return this;
         }
 
